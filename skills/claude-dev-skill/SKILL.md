@@ -31,6 +31,7 @@ Notes carry dates, and some facts belong to a specific model or Claude Code vers
 | Designing an eval or hillclimbing a prompt or agent setup | [evals.md](references/evals.md) |
 | A long, visual, comparative or shared output | [html-outputs.md](references/html-outputs.md) |
 | Making an app or service faster with Claude | [performance.md](references/performance.md) |
+| Deciding on, briefing or setting up Claude Code cloud sessions, or fixing GitHub connection | [cloud-sessions.md](references/cloud-sessions.md) |
 | Anything else | [index.md](references/index.md) lists every post with its sections |
 
 ## Principles shared across the posts
