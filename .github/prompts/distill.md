@@ -40,6 +40,6 @@ Write `.cache/distill-result.json`:
 { "posts": [ { "slug": "<slug>", "status": "done", "notes": ["<note file>"] } ] }
 ```
 
-Use `"done"` only after the notes reflect the post and the guard passes. Use `"skipped"` when a post gives an agent nothing to act on, such as a pure announcement.
+Always write this file before your final reply, one entry per post in the task sheet, even when no note needed a change. Use `"done"` when the notes reflect the post and the guard passes, including when you changed nothing because they already matched. Use `"skipped"` when a post gives an agent nothing to act on, such as a pure announcement. A run without this file is discarded.
 
 Your final reply is shown in a public log, so it must be exactly one line and nothing else: `Distilled <n> post(s), skipped <m>.`

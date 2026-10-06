@@ -43,6 +43,7 @@ test('the distillation task names sources and the notes that cite each post', ()
   assert.match(task, /`alpha-post`: Alpha \(2026-01-01, playbooks\)\n  - source: \.cache\/sources\/alpha-post\.md\n  - cited by: one\.md/);
   assert.match(task, /`beta-post`: Beta \(2026-02-01, untagged\)[\s\S]*cited by: none yet/);
   assert.match(task, /- two\.md: no sources line/);
+  assert.match(task, /## Finish\n\nRun the guard, then write `\.cache\/distill-result\.json`/);
   assert.throws(() => distillTask(POSTS, ['ghost-post'], notes, '.cache/sources'), /Not on claude\.dev: ghost-post/);
 });
 

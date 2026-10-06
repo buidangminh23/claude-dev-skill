@@ -122,6 +122,12 @@ jobs:
           out="$RUNNER_TEMP/handoff"
           denials=$(jq -r --arg ws "$GITHUB_WORKSPACE/" '[.[] | select(.type == "result") | .permission_denials[]? | .tool_name + " " + ((.tool_input.file_path // .tool_input.path // .tool_input.pattern // .tool_input.command // "") | tostring | ltrimstr($ws) | gsub("[\r\n]+"; " ") | .[0:120])] | unique | join("; ")' "${EXECUTION_FILE:-$RUNNER_TEMP/claude-execution-output.json}" 2>/dev/null || true)
           [ -z "$denials" ] || echo "Permission denials: $denials"
+          trace="${EXECUTION_FILE:-$RUNNER_TEMP/claude-execution-output.json}"
+          if [ -f "$trace" ]; then
+            echo "Claude tool calls: $(jq -r --arg ws "$GITHUB_WORKSPACE/" '[.[] | select(.type == "assistant") | .message.content[]? | select(.type == "tool_use") | .name + " " + ((.input.file_path // .input.path // .input.pattern // .input.command // "") | tostring | ltrimstr($ws) | gsub("[\r\n]+"; " ") | .[0:100])] | join("; ")' "$trace" 2>/dev/null)"
+            echo "Claude reply: $(jq -r '[.[] | select(.type == "result") | .result // ""] | last // "" | gsub("[\r\n]+"; " ") | .[0:200]' "$trace" 2>/dev/null)"
+          fi
+          if [ -f .cache/distill-result.json ]; then echo "Result file: $(jq -c '[.posts[]? | {slug, status}]' .cache/distill-result.json 2>/dev/null | head -c 400)"; else echo "Result file: missing"; fi
           stop() { msg="$1${denials:+ Permission denials: $denials.}"; echo "$msg"; echo "reason=$msg" >> "$GITHUB_OUTPUT"; echo "kept=false" >> "$GITHUB_OUTPUT"; exit 0; }
           git checkout -q HEAD -- "$SKILL/references/index.md" "$SKILL/references/mods-catalog.md"
           [ "$OUTCOME" = success ] || stop "Claude did not finish (step outcome: $OUTCOME)."

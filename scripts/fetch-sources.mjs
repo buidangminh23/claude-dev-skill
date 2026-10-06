@@ -77,6 +77,7 @@ export function distillTask(posts, slugs, notes, sourceDir) {
   }
   lines.push('', '## Existing notes and the posts they cite', '');
   for (const [name, sources] of notes) lines.push(`- ${name}: ${sources.join(', ') || 'no sources line'}`);
+  lines.push('', '## Finish', '', 'Run the guard, then write `.cache/distill-result.json` with one entry per post above, even if no note changed.');
   return `${lines.join('\n')}\n`;
 }
 
