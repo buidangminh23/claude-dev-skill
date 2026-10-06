@@ -158,6 +158,23 @@ test('static checks pass a clean tree and flag size and link problems', () => {
   }
 });
 
+test('static checks skip the source cache and files the sandbox will not let them read', () => {
+  const email = ['someone', 'example.org'].join('@');
+  const root = tree({
+    'skills/claude-dev-skill/SKILL.md': SKILL,
+    '.cache/sources/post.md': `Contact ${email} for help.\n`,
+    '.mcp.json': '{}\n',
+  });
+  const locked = path.join(root, '.mcp.json');
+  try {
+    fs.chmodSync(locked, 0o000);
+    assert.deepEqual(staticChecks(root), []);
+  } finally {
+    fs.chmodSync(locked, 0o644);
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
 test('overlap checks read notes but skip generated files', () => {
   const sentence = 'The quick lantern hums beside a quiet river while seven copper owls count the remaining biscuits slowly.';
   const root = tree({

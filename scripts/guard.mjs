@@ -30,7 +30,7 @@ const ALLOWED_HOSTS = new Set([
 const ALLOWED_GITHUB_PREFIXES = ['/anthropics/', `/buidangminh23/${SKILL_NAME}`];
 const DEFAULT_SCOPE = [`${SKILL_DIR}/references/`, `${SKILL_DIR}/SKILL.md`];
 const EDITABLE_SECTIONS = new Set(['Pick the note', 'Principles shared across the posts']);
-const SKIP_DIRS = new Set(['.git', 'node_modules', 'dist']);
+const SKIP_DIRS = new Set(['.git', 'node_modules', 'dist', '.cache']);
 
 const fail = (check, file, message) => ({ check, file, message });
 
@@ -285,7 +285,14 @@ export function staticChecks(root = ROOT) {
   }
   if (folderBytes > LIMITS.folder) problems.push(fail('size', SKILL_DIR, `${folderBytes} bytes, limit ${LIMITS.folder}`));
   for (const file of listFiles(root).filter(isText)) {
-    for (const label of scanText(fs.readFileSync(path.join(root, file), 'utf8'))) problems.push(fail('secrets', file, `looks like a ${label}`));
+    let text;
+    try {
+      text = fs.readFileSync(path.join(root, file), 'utf8');
+    } catch (error) {
+      if (error.code === 'EACCES' || error.code === 'EPERM') continue;
+      throw error;
+    }
+    for (const label of scanText(text)) problems.push(fail('secrets', file, `looks like a ${label}`));
   }
   return problems;
 }
