@@ -14,6 +14,16 @@ export function readPolicy(root = ROOT) {
   return JSON.parse(fs.readFileSync(path.join(root, 'data/policy.json'), 'utf8'));
 }
 
+/**
+ * Put untrusted text in a code block it cannot close, with control characters removed.
+ */
+export function fenced(text) {
+  const clean = text.trim().slice(0, 3000).replace(/\r\n?/g, '\n').replace(/[\0-\x08\x0b-\x1f\x7f]/g, '');
+  const longest = Math.max(0, ...(clean.match(/`+/g) ?? []).map((run) => run.length));
+  const fence = '`'.repeat(Math.max(3, longest + 1));
+  return `${fence}text\n${clean}\n${fence}`;
+}
+
 export function pendingPosts(state) {
   return Object.entries(state.posts).filter(([, post]) => post.distilled !== post.sha256).map(([slug]) => slug);
 }
@@ -32,8 +42,8 @@ export function compose({ state, policy, report = {}, hasToken = false, distill 
     if (!hasToken) items.push(`- **${pending.length} post(s) wait for distillation** because the \`CLAUDE_CODE_OAUTH_TOKEN\` secret is not set: ${list}. The index already lists them, so agents still find and read them; notes follow once the secret exists.`);
     else items.push(`- **${pending.length} post(s) wait for distillation**: ${list}. Last attempt in this run: ${distill}. Retries run at 03, 09, 15 and 21 UTC, or start one with the workflow's "distill" input.`);
   }
-  if (guard.trim()) items.push(`- **Distilled notes were not applied.** Nothing from that attempt was published:\n\n\`\`\`\n${guard.trim().slice(0, 3000)}\n\`\`\``);
-  if (releaseBlocked.trim()) items.push(`- **Release blocked:**\n\n\`\`\`\n${releaseBlocked.trim().slice(0, 3000)}\n\`\`\``);
+  if (guard.trim()) items.push(`- **Distilled notes were not applied.** Nothing from that attempt was published:\n\n${fenced(guard)}`);
+  if (releaseBlocked.trim()) items.push(`- **Release blocked:**\n\n${fenced(releaseBlocked)}`);
   const events = [];
   if (report.removedPosts?.length) events.push({ title: `claude.dev removed ${report.removedPosts.length} post(s)`, body: `Removed: ${report.removedPosts.map((post) => `\`${post.slug}\` (${post.title})`).join(', ')}.\n\nNotes that cite them now fail the link check. Remove or replace those citations.` });
   if (report.siteMapChanged) events.push({ title: 'claude.dev changed its llms.txt outside the post list', body: 'The non-post part of https://claude.dev/llms.txt changed. Check whether the site added a new kind of resource worth watching.' });
@@ -81,8 +91,10 @@ function main(argv) {
   if (step.action === 'create') gh(['issue', 'create', '--title', TITLE, '--label', LABEL, '--body-file', '-'], step.body);
   if (step.action === 'update') gh(['issue', 'edit', String(open[0].number), '--body-file', '-'], step.body);
   if (step.action === 'close') gh(['issue', 'close', String(open[0].number), '--comment', step.comment]);
-  for (const event of events) gh(['issue', 'create', '--title', event.title, '--label', LABEL, '--body-file', '-'], `${event.body}\n\nRaised by ${runUrl}.\n`);
-  process.stdout.write(`Status issue: ${step.action}. One-off issues: ${events.length}.\n`);
+  const openTitles = new Set(JSON.parse(gh(['issue', 'list', '--label', LABEL, '--state', 'open', '--json', 'title', '--limit', '100'])).map((issue) => issue.title));
+  const fresh = events.filter((event) => !openTitles.has(event.title));
+  for (const event of fresh) gh(['issue', 'create', '--title', event.title, '--label', LABEL, '--body-file', '-'], `${event.body}\n\nRaised by ${runUrl}.\n`);
+  process.stdout.write(`Status issue: ${step.action}. One-off issues: ${fresh.length} new, ${events.length - fresh.length} already open.\n`);
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

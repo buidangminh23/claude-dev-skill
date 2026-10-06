@@ -162,7 +162,9 @@ const RISKY_PATTERNS = [
   ['asks for root', /\bsudo\s+[a-z]/],
   ['skips permission checks', /--dangerously-skip-permissions|\bbypassPermissions\b|--permission-mode[ =]bypass/i],
   ['decodes a hidden payload', /\bbase64\s+(?:-d|--decode)\b|\bFromBase64String\b|\batob\(/],
-  ['installs software globally', /\b(?:npm|pnpm|yarn)\s+(?:i|install|add)\s+(?:-g|--global)\b|\bpip3?\s+install\b|\bbrew\s+install\b|\bcargo\s+install\b/],
+  ['pipes a download into an interpreter', /\b(?:curl|wget|irm|iwr|Invoke-WebRequest|Invoke-RestMethod)\b[^\n|]*\|\s*(?:sudo\s+)?(?:python[0-9.]*|node|deno|bun|perl|ruby|php|pwsh|powershell)\b/i],
+  ['runs downloaded code', /\$\(\s*(?:curl|wget)\b|\b(?:ba|z)?sh\s+-c\s+["']?\$\(/i],
+  ['installs software globally', /\b(?:npm|pnpm|yarn)\s+(?:i|install|add)\s+(?:-g|--global)\b|\bpip3?\s+install\b|\bpipx\s+install\b|\buv\s+tool\s+install\b|\bgem\s+install\b|\bgo\s+install\b|\bbrew\s+install\b|\bcargo\s+install\b/],
   ['runs code without asking', /\bnpx\s+(?:-y|--yes)\b|\beval\s*\(/],
 ];
 
@@ -171,7 +173,15 @@ const RISKY_PATTERNS = [
  * stops the release for a person to review.
  */
 export function riskyInstructions(text) {
-  return RISKY_PATTERNS.filter(([, pattern]) => pattern.test(text)).map(([label]) => label);
+  const found = RISKY_PATTERNS.filter(([, pattern]) => pattern.test(text)).map(([label]) => label);
+  for (const [, rest] of text.matchAll(/\b(?:curl|wget|irm|iwr|Invoke-WebRequest|Invoke-RestMethod)\b([^\n`]*)/gi)) {
+    const hosts = [...rest.matchAll(/(?:^|[\s"'=])(?:https?:\/\/((?:[a-z0-9-]+\.)+[a-z]{2,})|((?:[a-z0-9-]+\.)+[a-z]{2,})(?=\/))/gi)].map((match) => (match[1] ?? match[2]).toLowerCase());
+    if (hosts.some((host) => host !== 'github.com' && !ALLOWED_HOSTS.has(host))) {
+      found.push('downloads from a host outside the allowlist');
+      break;
+    }
+  }
+  return found;
 }
 
 /**
@@ -272,6 +282,7 @@ export function staticChecks(root = ROOT) {
     if (limit && bytes > limit) problems.push(fail('size', file, `${bytes} bytes, limit ${limit}`));
     if (file.endsWith('.md')) {
       const text = fs.readFileSync(path.join(root, file), 'utf8');
+      if (/[\0-\x08\x0b\x0c\x0e-\x1f\x7f]/.test(text)) problems.push(fail('format', file, 'contains control characters'));
       for (const url of extractUrls(text)) {
         const problem = checkUrl(url, knownSlugs);
         if (problem) problems.push(fail('links', file, problem));
@@ -329,7 +340,8 @@ export function changedFiles(root, base) {
   const entries = new Map();
   for (const record of git('diff', '--numstat', '-z', '--no-renames', base, '--').split('\0').filter(Boolean)) {
     const [added, removed, file] = record.split('\t');
-    entries.set(file, { file, lines: (Number(added) || 0) + (Number(removed) || 0), deleted: false });
+    const binary = added === '-' || removed === '-';
+    entries.set(file, { file, lines: binary ? 0 : Number(added) + Number(removed), deleted: false, binary });
   }
   for (const file of git('diff', '--name-only', '-z', '--no-renames', '--diff-filter=D', base, '--').split('\0').filter(Boolean)) {
     entries.set(file, { ...(entries.get(file) ?? { file, lines: 0 }), deleted: true });
@@ -352,6 +364,7 @@ export function scopeChecks(root, base, allowed = DEFAULT_SCOPE, { budget = null
   for (const entry of changedFiles(root, base)) {
     if (!inScope(entry.file)) problems.push(fail('scope', entry.file, 'changed outside the allowed paths'));
     else if (entry.deleted) problems.push(fail('scope', entry.file, 'deleted; automated runs may only add or edit notes'));
+    else if (entry.binary) problems.push(fail('scope', entry.file, 'git treats it as binary, so its changed lines cannot be counted'));
     lines += entry.lines;
   }
   if (budget !== null && lines > budget) problems.push(fail('scope', SKILL_DIR, `${lines} changed lines, budget ${budget}`));

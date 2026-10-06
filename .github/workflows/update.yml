@@ -36,10 +36,15 @@ jobs:
       outcome: ${{ steps.claude.outcome }}
       kept: ${{ steps.handoff.outputs.kept }}
       reason: ${{ steps.handoff.outputs.reason }}
+      base: ${{ steps.base.outputs.sha }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          ref: ${{ env.BRANCH }}
           persist-credentials: false
+      - name: Record the commit the notes start from
+        id: base
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
@@ -188,6 +193,7 @@ jobs:
 
       - name: Finish a release that stopped part-way
         id: resume
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -199,11 +205,12 @@ jobs:
             exit 0
           fi
           echo "Finishing $tag at $commit"
-          git -c advice.detachedHead=false checkout -q "$commit"
-          git rev-parse -q --verify "refs/tags/$tag" > /dev/null || git tag -a "$tag" -m "$tag"
-          node scripts/release.mjs push-tag "$tag"
-          node scripts/release.mjs publish "$tag"
-          git checkout -q "$BRANCH"
+          tree="$RUNNER_TEMP/release-$tag"
+          git worktree add -q --detach "$tree" "$commit"
+          trap 'git worktree remove --force "$tree"' EXIT
+          git rev-parse -q --verify "refs/tags/$tag" > /dev/null || git -C "$tree" tag -a "$tag" -m "$tag"
+          RELEASE_ROOT="$tree" node scripts/release.mjs push-tag "$tag"
+          RELEASE_ROOT="$tree" node scripts/release.mjs publish "$tag"
 
       - name: Detect changes on claude.dev
         id: detect
@@ -226,11 +233,12 @@ jobs:
         id: apply
         if: needs.distill.outputs.kept == 'true'
         env:
-          BASE: ${{ github.sha }}
+          BASE: ${{ needs.distill.outputs.base }}
           REQUESTED: ${{ needs.distill.outputs.slugs }}
         run: |
           src="$RUNNER_TEMP/handoff"
           reject() { echo "$1" | tee "$RUNNER_TEMP/guard.txt"; echo "result=rejected" >> "$GITHUB_OUTPUT"; exit 0; }
+          [[ "$BASE" =~ ^[0-9a-f]{40}$ ]] || reject "The distill job did not report the commit its notes start from."
           git diff --quiet "$BASE" HEAD -- "$SKILL/SKILL.md" "$SKILL/references" ":(exclude)$SKILL/references/index.md" ":(exclude)$SKILL/references/mods-catalog.md" \
             || reject "The notes changed on main while Claude worked; the posts stay pending for the next run."
           [ -z "$(find "$src" ! -type f ! -type d -print -quit)" ] || reject "The handoff holds a link or special file."
@@ -289,7 +297,7 @@ jobs:
 
       - name: Release
         id: release
-        if: steps.final.outputs.ok == 'true'
+        if: steps.final.outputs.ok == 'true' && steps.resume.outcome != 'failure'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -347,6 +355,7 @@ jobs:
           FINAL_OK: ${{ steps.final.outputs.ok }}
           RELEASE: ${{ steps.release.outcome }}
           RESUME: ${{ steps.resume.outcome }}
+          JOB_STATUS: ${{ job.status }}
         run: |
           distill=skipped
           if [ "$RAN" = true ]; then distill="${OUTCOME:-failure}"; fi
@@ -357,8 +366,18 @@ jobs:
           fi
           if [ "$APPLIED" = rejected ]; then args+=(--guard "$RUNNER_TEMP/guard.txt"); fi
           if [ "$FINAL_OK" = false ]; then args+=(--release-blocked "$RUNNER_TEMP/final.txt"); fi
-          if [ "$RELEASE" = failure ] || [ "$RESUME" = failure ]; then
-            printf 'The release step failed in %s/%s/actions/runs/%s; the next run finishes a release whose commit is already on main.\n' "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID" >> "$RUNNER_TEMP/final.txt"
-            [ "$FINAL_OK" = false ] || args+=(--release-blocked "$RUNNER_TEMP/final.txt")
+          run_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          blocked=false
+          if [ "$RESUME" = failure ]; then
+            printf 'Finishing the release already on main failed in %s, so no new version was cut. The next run tries again.\n' "$run_url" >> "$RUNNER_TEMP/final.txt"
+            blocked=true
           fi
+          if [ "$RELEASE" = failure ]; then
+            printf 'The release step failed in %s; the next run finishes a release whose commit is already on main.\n' "$run_url" >> "$RUNNER_TEMP/final.txt"
+            blocked=true
+          elif [ "$JOB_STATUS" = failure ]; then
+            printf 'A step of the publish job failed in %s before the release; nothing from it was published.\n' "$run_url" >> "$RUNNER_TEMP/final.txt"
+            blocked=true
+          fi
+          if [ "$blocked" = true ] && [ "$FINAL_OK" != false ]; then args+=(--release-blocked "$RUNNER_TEMP/final.txt"); fi
           node scripts/attention.mjs "${args[@]}"

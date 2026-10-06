@@ -5,6 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
+import { fileURLToPath } from 'node:url';
 import { MANIFESTS, bump, checkInstallerContract, latestTag, measure, nextVersion, pluginArchivePaths, pushTag, releaseNotes, validate, zipEntries } from '../scripts/release.mjs';
 
 const COPY = ['package.json', 'plugin.json', 'gemini-extension.json', 'README.md', 'LICENSE', 'THIRD_PARTY_NOTICES.md', 'CHANGELOG.md', 'web-card.json', 'assets', 'skills', 'data', '.agents', '.claude-plugin', '.codex-plugin', '.github/workflows/update.yml'];
@@ -184,4 +185,23 @@ test('pushTag retries, notices a tag that already arrived, and falls back to the
   assert.equal(probe.calls.at(-1), 'gh api repos/o/r/git/refs -f ref=refs/tags/v1 -f sha=deadbeef');
   probe = script([() => fail('failed'), '']);
   await assert.rejects(pushTag('v1', { run: probe.run, wait, attempts: 1, repo: '' }), /Could not push v1/);
+});
+
+test('RELEASE_ROOT packs another checkout and drops zips left from an earlier build', () => {
+  const root = copyRepo();
+  fs.writeFileSync(path.join(root, '.gitignore'), 'dist/\n');
+  const git = (...args) => execFileSync('git', ['-c', 'user.name=fixture', '-c', 'user.email=fixture@invalid', ...args], { cwd: root, stdio: 'pipe' });
+  try {
+    git('init', '-q');
+    git('add', '.');
+    git('commit', '-q', '-m', 'release');
+    const version = readJson(root, 'package.json').version;
+    fs.mkdirSync(path.join(root, 'dist'));
+    fs.writeFileSync(path.join(root, 'dist/claude-dev-skill-v0.0.1.zip'), 'stale');
+    const script = fileURLToPath(new URL('../scripts/release.mjs', import.meta.url));
+    execFileSync(process.execPath, [script, 'pack', `v${version}`], { cwd: os.tmpdir(), env: { ...process.env, RELEASE_ROOT: root }, stdio: 'pipe' });
+    assert.deepEqual(fs.readdirSync(path.join(root, 'dist')).sort(), ['SHA256SUMS.txt', `claude-dev-skill-plugin-v${version}.zip`, `claude-dev-skill-v${version}.zip`]);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
 });

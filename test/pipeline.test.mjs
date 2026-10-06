@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { compose, pendingPosts, plan } from '../scripts/attention.mjs';
+import { compose, fenced, pendingPosts, plan } from '../scripts/attention.mjs';
 import { distillTask, htmlText, noteSources } from '../scripts/fetch-sources.mjs';
 
 const POSTS = [
@@ -66,6 +66,16 @@ test('attention status lists pending posts, terms reviews and guard failures', (
   assert.match(compose({ state: state(), policy, hasToken: true, releaseBlocked: '[links] y' }).status, /Release blocked/);
   const events = compose({ state: state(), policy, report: { removedPosts: [{ slug: 'gone', title: 'Gone' }], siteMapChanged: true } }).events;
   assert.deepEqual(events.map((event) => event.title), ['claude.dev removed 1 post(s)', 'claude.dev changed its llms.txt outside the post list']);
+});
+
+test('untrusted guard text cannot close its code block', () => {
+  const block = fenced('unsupported line: ```\r\n@someone [x](https://phish.example)\u0007');
+  const fence = block.split('\n')[0].replace(/text$/, '');
+  assert.equal(fence, '````');
+  assert.ok(block.endsWith(`\n${fence}`));
+  assert.ok(!block.slice(fence.length, -fence.length).includes(fence));
+  assert.doesNotMatch(block, /[\r\u0007]/);
+  assert.match(compose({ state: state(), policy, hasToken: true, guard: 'a ``` b' }).status, /````text\na ``` b\n````/);
 });
 
 test('the status issue is created, edited only when the text changes, and closed when clear', () => {

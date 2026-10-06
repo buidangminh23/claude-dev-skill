@@ -6,7 +6,7 @@ import os from 'node:os';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
-export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+export const ROOT = process.env.RELEASE_ROOT ? path.resolve(process.env.RELEASE_ROOT) : path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const NAME = 'claude-dev-skill';
 export const MANIFESTS = ['plugin.json', '.claude-plugin/plugin.json', '.claude-plugin/marketplace.json', '.codex-plugin/plugin.json', 'gemini-extension.json'];
 const PLUGIN_PAYLOAD = ['plugin.json', 'README.md', 'LICENSE', 'THIRD_PARTY_NOTICES.md', 'skills', 'assets', '.claude-plugin', '.codex-plugin'];
@@ -189,6 +189,7 @@ function pack(tag) {
   const dirty = execFileSync('git', ['status', '--porcelain', '--untracked-files=normal'], { cwd: ROOT, encoding: 'utf8' });
   if (dirty.trim()) throw new Error('Commit all release inputs before packaging HEAD');
   const dist = path.join(ROOT, 'dist');
+  fs.rmSync(dist, { recursive: true, force: true });
   fs.mkdirSync(dist, { recursive: true });
   const skillZip = `${NAME}-v${version}.zip`;
   execFileSync('git', ['archive', '--format=zip', `--prefix=${NAME}-v${version}/`, `--output=${path.join(dist, skillZip)}`, 'HEAD'], { cwd: ROOT });
