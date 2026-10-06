@@ -1,8 +1,16 @@
 <div align="center">
 
+<img src="assets/logo.svg" width="112" alt="claude-dev-skill logo">
+
 # claude-dev-skill
 
 ### Unofficial, auto-updating agent skill built from the claude.dev engineering blog
+
+<p>Works with&nbsp;
+  <img src="assets/claude-code.svg" height="20" alt="">&nbsp;Claude Code
+  &nbsp;·&nbsp;
+  <img src="assets/codex.svg" height="20" alt="">&nbsp;Codex
+</p>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-0078D4?style=for-the-badge)](LICENSE)
 
@@ -20,4 +28,4 @@ This project is independent. It is not affiliated with, endorsed by, or sponsore
 
 ## License
 
-MIT for the contents of this repository. See [LICENSE](LICENSE).
+MIT for the contents of this repository. See [LICENSE](LICENSE). The Claude Code and Codex marks in `assets/` are trademarks of their owners and are used only to name compatible tools; see [assets/SOURCES.md](assets/SOURCES.md) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
