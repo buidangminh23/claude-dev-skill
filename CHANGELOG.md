@@ -2,6 +2,12 @@
 
 Releases made by the update workflow list the claude.dev posts and mods that changed since the previous release.
 
+## [0.1.1] - 2026-10-06
+
+### Notes rewritten
+
+- `references/effort.md`
+
 ## [0.1.0] - 2026-10-06
 
 ### Added
