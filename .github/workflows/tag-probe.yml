@@ -28,6 +28,20 @@ jobs:
           git -c user.name=probe -c user.email=probe@invalid tag -a "probe-annotated-$SUFFIX" -m probe HEAD
           GIT_TRACE_PACKET=1 git push origin "probe-annotated-$SUFFIX" 2>&1 | grep -aE 'packet: .*(ng |ok |unpack|remote|error)|rejected|error|remote:' | tail -20
 
+      - name: Push a v-prefixed tag that matches the release trigger
+        continue-on-error: true
+        run: |
+          git tag "vprobe-$SUFFIX" HEAD
+          GIT_TRACE_PACKET=1 git push origin "vprobe-$SUFFIX" 2>&1 | grep -aE 'packet: .*(ng |ok |unpack|remote|error)|rejected|error|remote:' | tail -20
+
+      - name: Push a new commit then tag it at once
+        continue-on-error: true
+        run: |
+          git -c user.name=probe -c user.email=probe@invalid commit -q --allow-empty -m "probe commit $SUFFIX"
+          git push -q origin "HEAD:refs/heads/probe-branch-$SUFFIX"
+          git -c user.name=probe -c user.email=probe@invalid tag -a "probe-fresh-$SUFFIX" -m probe HEAD
+          GIT_TRACE_PACKET=1 git push origin "probe-fresh-$SUFFIX" 2>&1 | grep -aE 'packet: .*(ng |ok |unpack|remote|error)|rejected|error|remote:' | tail -20
+
       - name: Create a tag through the API
         continue-on-error: true
         env:
@@ -39,12 +53,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          for kind in light annotated api; do
-            tag="probe-$kind-$SUFFIX"
-            if gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$tag" --jq '.ref' > /dev/null 2>&1; then
-              echo "$tag exists on GitHub; deleting"
-              gh api -X DELETE "repos/$GITHUB_REPOSITORY/git/refs/tags/$tag"
+          for ref in "tags/probe-light-$SUFFIX" "tags/probe-annotated-$SUFFIX" "tags/vprobe-$SUFFIX" "tags/probe-fresh-$SUFFIX" "tags/probe-api-$SUFFIX" "heads/probe-branch-$SUFFIX"; do
+            if gh api "repos/$GITHUB_REPOSITORY/git/ref/$ref" --jq '.ref' > /dev/null 2>&1; then
+              echo "$ref exists on GitHub; deleting"
+              gh api -X DELETE "repos/$GITHUB_REPOSITORY/git/refs/$ref"
             else
-              echo "$tag was not created"
+              echo "$ref was not created"
             fi
           done
