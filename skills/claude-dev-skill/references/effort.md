@@ -50,6 +50,14 @@ In the sanitizer and solver traces, low-effort attempts wrote a solution in one 
 - Design exploration you will steer: favor low. A redesign of the `/config` menu took about 1 minute at low and 28 minutes at max; every pass had the same core idea, and max came back polished with walkthroughs of several flows.
 - Detailed spec: expect little difference between levels. Builds from an interview-derived spec looked alike across levels, with max simplifying a few details.
 
+### A loop for feature work
+The author's routine for new features splits the effort across phases:
+1. Hand Claude a spec and have it interview you about gaps in it.
+2. Implement at low effort.
+3. Review that the result captures the intent, iterating at low as needed.
+4. Verify and test at high effort.
+This keeps you in control of decisions while saving the expensive, edge-case-hunting pass for the end.
+
 ### Effort versus a bigger model
 - On Terminal-Bench 3.0, Opus 5.5 at high (58.9%) scored level with Fable 5.1 at max (58.0%) while using about half as many tokens, and Opus 5.5 scored highest of the four models at every setting. That is this post's evidence on effort against switching; the escalation order and the token cost of each step are in [models-and-cost.md](models-and-cost.md).
 
