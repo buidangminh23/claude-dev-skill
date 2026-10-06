@@ -1,0 +1,33 @@
+{
+  "site": { "name": "fixture" },
+  "count": 3,
+  "posts": [
+    {
+      "slug": "older-fixture-post",
+      "title": "An older fixture post",
+      "date": "2026-01-02",
+      "tag": "engineering",
+      "summary": "A made-up summary for an older post.",
+      "draft": false,
+      "mins": 4,
+      "tree": [{ "id": "first-part", "t": "First part" }, { "id": "second-part", "t": "Second | part" }]
+    },
+    {
+      "slug": "newer-fixture-post",
+      "title": "A newer fixture post",
+      "date": "2026-03-04",
+      "tag": "playbooks",
+      "summary": "A made-up summary for a newer post.",
+      "draft": false,
+      "mins": 7,
+      "tree": [{ "id": "only-part", "t": "Only part" }]
+    },
+    {
+      "slug": "draft-fixture-post",
+      "title": "A draft that must stay hidden",
+      "date": "2026-05-06",
+      "tag": "agents",
+      "draft": true
+    }
+  ]
+}

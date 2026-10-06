@@ -1,0 +1,4 @@
+{
+  "termsReviewed": "September 18, 2026",
+  "note": "Distillation pauses when the claude.dev Terms of Use show a different last-updated date. Review https://claude.dev/terms/ and update termsReviewed to resume."
+}

@@ -1,0 +1,316 @@
+name: Update from claude.dev
+
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+    inputs:
+      distill:
+        description: Comma-separated post slugs to distill again (at most 3); leave empty for the pending ones
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: update-from-claude-dev
+  cancel-in-progress: false
+
+env:
+  BRANCH: main
+  SKILL: skills/claude-dev-skill
+
+jobs:
+  distill:
+    name: Detect and distill
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    permissions:
+      contents: read
+    outputs:
+      slugs: ${{ steps.plan.outputs.slugs }}
+      ran: ${{ steps.plan.outputs.run }}
+      outcome: ${{ steps.claude.outcome }}
+      kept: ${{ steps.handoff.outputs.kept }}
+      reason: ${{ steps.handoff.outputs.reason }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+
+      - name: Detect changes on claude.dev
+        id: detect
+        run: |
+          node scripts/detect.mjs --write
+          mkdir -p "$RUNNER_TEMP/handoff/references"
+          cp data/source-state.json "$RUNNER_TEMP/handoff/state.json"
+          git add data "$SKILL/references/index.md" "$SKILL/references/mods-catalog.md"
+          git -c user.name=distill -c user.email=distill@invalid commit -q -m "local: refreshed index" || true
+
+      - name: Decide whether to distill
+        id: plan
+        env:
+          REQUESTED: ${{ inputs.distill }}
+          FRESH: ${{ steps.detect.outputs.fresh }}
+          PENDING: ${{ steps.detect.outputs.pending }}
+          TERMS_OK: ${{ steps.detect.outputs.terms_ok }}
+          HAS_CLAUDE_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN != '' }}
+        run: |
+          slugs="$PENDING"
+          if [ -n "$REQUESTED" ]; then slugs="$REQUESTED"; fi
+          case "$slugs" in *[!a-z0-9,-]*) echo "Invalid slug list: $slugs"; exit 1 ;; esac
+          slugs=$(printf '%s' "$slugs" | tr ',' '\n' | grep -v '^$' | head -n 3 | paste -sd, - || true)
+          hour=$((10#$(date -u +%H)))
+          run=false
+          if [ -n "$slugs" ] && [ "$TERMS_OK" = true ] && [ "$HAS_CLAUDE_TOKEN" = true ]; then
+            if [ "$FRESH" = true ] || [ -n "$REQUESTED" ] || [ $((hour % 6)) -eq 3 ]; then run=true; fi
+          fi
+          echo "slugs=$slugs" >> "$GITHUB_OUTPUT"
+          echo "run=$run" >> "$GITHUB_OUTPUT"
+
+      - name: Fetch the posts
+        if: steps.plan.outputs.run == 'true'
+        env:
+          SLUGS: ${{ steps.plan.outputs.slugs }}
+        run: node scripts/fetch-sources.mjs .cache/sources --task .cache/distill-task.md --pending "$SLUGS"
+
+      - name: Distill notes with Claude
+        id: claude
+        if: steps.plan.outputs.run == 'true'
+        continue-on-error: true
+        uses: anthropics/claude-code-action@86d88e619d8e6caf07b5c3944dd14f441c533718 # v1.0.243
+        env:
+          CLAUDE_CODE_SUBPROCESS_ENV_SCRUB: "1"
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          github_token: ${{ github.token }}
+          display_report: "false"
+          show_full_output: "false"
+          prompt: "Follow the instructions in .github/prompts/distill.md. Your task sheet is .cache/distill-task.md."
+          claude_args: |
+            --max-turns 80
+            --allowedTools "Edit(skills/claude-dev-skill/references/**),Edit(skills/claude-dev-skill/SKILL.md),Edit(.cache/distill-result.json),Bash(node scripts/guard.mjs --sources .cache/sources)"
+            --disallowedTools "WebFetch,WebSearch,Task,Read(.git/**),Read(//proc/**),Read(~/**)"
+
+      - name: Hand the notes over
+        id: handoff
+        if: steps.plan.outputs.run == 'true'
+        env:
+          OUTCOME: ${{ steps.claude.outcome }}
+        run: |
+          out="$RUNNER_TEMP/handoff"
+          stop() { echo "$1"; echo "reason=$1" >> "$GITHUB_OUTPUT"; echo "kept=false" >> "$GITHUB_OUTPUT"; exit 0; }
+          git checkout -q HEAD -- "$SKILL/references/index.md" "$SKILL/references/mods-catalog.md"
+          [ "$OUTCOME" = success ] || stop "Claude did not finish (step outcome: $OUTCOME)."
+          [ -z "$(find "$SKILL" ! -type f ! -type d -print -quit)" ] || stop "Claude left a link or special file in the skill."
+          while IFS= read -r -d '' entry; do
+            file="${entry:3}"
+            case "$file" in
+              "$SKILL/SKILL.md") ;;
+              "$SKILL/references/"*) [[ "${file#"$SKILL/references/"}" =~ ^[a-z0-9][a-z0-9-]*\.md$ ]] || stop "Claude created a file with an unexpected name." ;;
+              *) stop "Claude changed files outside the notes." ;;
+            esac
+          done < <(git status --porcelain=v1 -z -uall --no-renames)
+          finished=$(jq -r '[.posts[]? | select((.status == "done" or .status == "skipped") and ((.slug // "") | test("^[a-z0-9][a-z0-9-]*$"))) | .slug] | unique | join(",")' .cache/distill-result.json 2>/dev/null || true)
+          [ -n "$finished" ] || stop "Claude finished no post."
+          cp "$SKILL/SKILL.md" "$out/SKILL.md"
+          for note in "$SKILL"/references/*.md; do
+            case "${note##*/}" in index.md|mods-catalog.md) continue ;; esac
+            cp "$note" "$out/references/"
+          done
+          if grep -rEq 'sk-ant-[A-Za-z0-9_-]{8}|gh[pousr]_[A-Za-z0-9]{20}|github_pat_[A-Za-z0-9_]{20}|-----BEGIN [A-Z ]*PRIVATE KEY' "$out"; then
+            stop "The notes contain something that looks like a credential."
+          fi
+          printf '%s\n' "$finished" > "$out/finished.txt"
+          echo "Handing over notes for: $finished"
+          echo "kept=true" >> "$GITHUB_OUTPUT"
+
+      - name: Upload the notes
+        if: steps.handoff.outputs.kept == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: distilled-notes
+          path: ${{ runner.temp }}/handoff/
+          if-no-files-found: error
+          retention-days: 1
+
+  publish:
+    name: Commit and release
+    needs: distill
+    if: ${{ !cancelled() && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.BRANCH }}
+          fetch-depth: 0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Detect changes on claude.dev
+        id: detect
+        run: node scripts/detect.mjs --write --report "$RUNNER_TEMP/report.json" --notes "$RUNNER_TEMP/notes.md"
+
+      - name: Commit the refreshed index
+        if: steps.detect.outputs.changed == 'true'
+        run: |
+          git add data "$SKILL/references/index.md" "$SKILL/references/mods-catalog.md"
+          git commit -q -m "chore: refresh claude.dev index"
+
+      - name: Download the distilled notes
+        if: needs.distill.outputs.kept == 'true'
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: distilled-notes
+          path: ${{ runner.temp }}/handoff
+
+      - name: Apply the notes if they pass the guard
+        id: apply
+        if: needs.distill.outputs.kept == 'true'
+        env:
+          BASE: ${{ github.sha }}
+          REQUESTED: ${{ needs.distill.outputs.slugs }}
+        run: |
+          src="$RUNNER_TEMP/handoff"
+          reject() { echo "$1" | tee "$RUNNER_TEMP/guard.txt"; echo "result=rejected" >> "$GITHUB_OUTPUT"; exit 0; }
+          git diff --quiet "$BASE" HEAD -- "$SKILL/SKILL.md" "$SKILL/references" ":(exclude)$SKILL/references/index.md" ":(exclude)$SKILL/references/mods-catalog.md" \
+            || reject "The notes changed on main while Claude worked; the posts stay pending for the next run."
+          [ -z "$(find "$src" ! -type f ! -type d -print -quit)" ] || reject "The handoff holds a link or special file."
+          while IFS= read -r -d '' file; do
+            rel="${file#"$src"/}"
+            case "$rel" in
+              SKILL.md|finished.txt|state.json) ;;
+              references/index.md|references/mods-catalog.md) reject "The handoff holds a generated file." ;;
+              references/*) [[ "${rel#references/}" =~ ^[a-z0-9][a-z0-9-]*\.md$ ]] || reject "The handoff holds an unexpected file." ;;
+              *) reject "The handoff holds an unexpected file." ;;
+            esac
+          done < <(find "$src" -type f -print0)
+          for note in "$SKILL"/references/*.md; do
+            case "${note##*/}" in index.md|mods-catalog.md) continue ;; esac
+            [ -f "$src/references/${note##*/}" ] || reject "Claude removed or renamed ${note##*/}."
+          done
+          keep=""
+          IFS=, read -ra reported <<< "$(head -c 2000 "$src/finished.txt" | tr -d '\n')"
+          for slug in "${reported[@]}"; do
+            [[ "$slug" =~ ^[a-z0-9][a-z0-9-]*$ ]] || continue
+            case ",$REQUESTED," in *",$slug,"*) keep="${keep:+$keep,}$slug" ;; esac
+          done
+          [ -n "$keep" ] || reject "Claude reported no post from its task."
+          count=$(awk -F, '{ print NF }' <<< "$keep")
+          cp "$src/SKILL.md" "$SKILL/SKILL.md"
+          if compgen -G "$src/references/*.md" > /dev/null; then cp "$src"/references/*.md "$SKILL/references/"; fi
+          node scripts/fetch-sources.mjs .cache/sources
+          if ! node scripts/guard.mjs --sources .cache/sources --diff HEAD --protect --budget $((400 * count)) > "$RUNNER_TEMP/guard.txt" 2>&1; then
+            cat "$RUNNER_TEMP/guard.txt"
+            git checkout -q -- "$SKILL"
+            git clean -fdq -- "$SKILL"
+            echo "result=rejected" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          cat "$RUNNER_TEMP/guard.txt"
+          git add "$SKILL"
+          git diff --cached --name-only -- "$SKILL" | sed "s|^$SKILL/||" > "$RUNNER_TEMP/touched.txt"
+          git diff --cached --quiet || git commit -q -m "docs: distill $keep"
+          node scripts/detect.mjs --mark-distilled "$keep" --expect-state "$src/state.json"
+          git add data
+          git diff --cached --quiet || git commit -q -m "chore: mark distilled posts"
+          echo "result=kept" >> "$GITHUB_OUTPUT"
+
+      - name: Count unreleased commits
+        id: ahead
+        run: echo "count=$(git rev-list --count "origin/$BRANCH..HEAD")" >> "$GITHUB_OUTPUT"
+
+      - name: Check the skill before release
+        id: final
+        if: steps.ahead.outputs.count != '0'
+        run: |
+          [ -d .cache/sources ] || node scripts/fetch-sources.mjs .cache/sources
+          if node scripts/guard.mjs --sources .cache/sources > "$RUNNER_TEMP/final.txt" 2>&1; then ok=true; else ok=false; fi
+          cat "$RUNNER_TEMP/final.txt"
+          echo "ok=$ok" >> "$GITHUB_OUTPUT"
+
+      - name: Release
+        id: release
+        if: steps.final.outputs.ok == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          {
+            cat "$RUNNER_TEMP/notes.md"
+            if [ -s "$RUNNER_TEMP/touched.txt" ]; then
+              printf '\n### Notes rewritten\n\n'
+              awk '{ printf "- %c%s%c\n", 96, $0, 96 }' "$RUNNER_TEMP/touched.txt"
+            fi
+          } > "$RUNNER_TEMP/release-notes.md"
+          grep -q '[^[:space:]]' "$RUNNER_TEMP/release-notes.md" || echo "- Refreshed the claude.dev index." > "$RUNNER_TEMP/release-notes.md"
+          version=$(node scripts/release.mjs bump patch --notes-file "$RUNNER_TEMP/release-notes.md")
+          npm test
+          node scripts/release.mjs check
+          git add package.json CHANGELOG.md web-card.json plugin.json .claude-plugin .codex-plugin gemini-extension.json
+          git commit -q -m "release: v$version"
+          git push origin "HEAD:$BRANCH" || { git pull -q --rebase origin "$BRANCH" && npm test && git push origin "HEAD:$BRANCH"; }
+          git tag -a "v$version" -m "v$version"
+          git push origin "v$version"
+          node scripts/release.mjs publish "v$version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Ask Personal Web to refresh its skill cards
+        if: steps.release.outcome == 'success'
+        env:
+          DISPATCH_TOKEN: ${{ secrets.PERSONAL_WEB_DISPATCH_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          if [ -z "$DISPATCH_TOKEN" ]; then
+            echo "PERSONAL_WEB_DISPATCH_TOKEN is not set; the site's daily sync picks this release up."
+            exit 0
+          fi
+          GH_TOKEN="$DISPATCH_TOKEN" gh api repos/buidangminh23/Personal-Web/dispatches -f event_type=skill-published -F "client_payload[repo]=$REPOSITORY"
+
+      - name: Keep the schedule alive
+        if: steps.ahead.outputs.count == '0'
+        run: |
+          days=$(( ($(date +%s) - $(git log -1 --format=%ct "origin/$BRANCH")) / 86400 ))
+          if [ "$days" -lt 45 ]; then exit 0; fi
+          printf '{\n  "lastQuietCheck": "%s"\n}\n' "$(date -u +%Y-%m-%d)" > data/heartbeat.json
+          git add data/heartbeat.json
+          git commit -q -m "chore: keep the update schedule alive"
+          git push origin "HEAD:$BRANCH"
+
+      - name: Report what needs attention
+        if: ${{ !cancelled() && steps.detect.outcome == 'success' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HAS_CLAUDE_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN != '' }}
+          RAN: ${{ needs.distill.outputs.ran }}
+          OUTCOME: ${{ needs.distill.outputs.outcome }}
+          KEPT: ${{ needs.distill.outputs.kept }}
+          REASON: ${{ needs.distill.outputs.reason }}
+          APPLIED: ${{ steps.apply.outputs.result }}
+          FINAL_OK: ${{ steps.final.outputs.ok }}
+        run: |
+          distill=skipped
+          if [ "$RAN" = true ]; then distill="${OUTCOME:-failure}"; fi
+          args=(--report "$RUNNER_TEMP/report.json" --has-token "$HAS_CLAUDE_TOKEN" --distill "$distill")
+          if [ "$RAN" = true ] && [ "$KEPT" != true ]; then
+            printf '%s\n' "${REASON:-The distill job stopped before handing over notes.}" > "$RUNNER_TEMP/guard.txt"
+            args+=(--guard "$RUNNER_TEMP/guard.txt")
+          fi
+          if [ "$APPLIED" = rejected ]; then args+=(--guard "$RUNNER_TEMP/guard.txt"); fi
+          if [ "$FINAL_OK" = false ]; then args+=(--release-blocked "$RUNNER_TEMP/final.txt"); fi
+          node scripts/attention.mjs "${args[@]}"

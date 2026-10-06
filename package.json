@@ -1,0 +1,28 @@
+{
+  "name": "claude-dev-skill",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Unofficial, auto-updating agent skill built from the claude.dev engineering blog",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buidangminh23/claude-dev-skill.git"
+  },
+  "homepage": "https://github.com/buidangminh23/claude-dev-skill#readme",
+  "bugs": {
+    "url": "https://github.com/buidangminh23/claude-dev-skill/issues"
+  },
+  "scripts": {
+    "test": "node --test",
+    "check": "node scripts/release.mjs check",
+    "guard": "node scripts/guard.mjs",
+    "detect": "node scripts/detect.mjs",
+    "stats": "node scripts/release.mjs stats",
+    "release:notes": "node scripts/release.mjs notes",
+    "release:pack": "node scripts/release.mjs pack"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

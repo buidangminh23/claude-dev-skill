@@ -1,0 +1,77 @@
+{
+  "id": "claude-dev",
+  "industry": "development",
+  "type": "myskills",
+  "vi": {
+    "nameA": "claude.dev",
+    "nameB": "Skill",
+    "tagline": "Ghi chú không chính thức từ claude.dev, tự cập nhật mỗi giờ",
+    "desc": "Skill không chính thức chắt lọc các bài kỹ thuật Anthropic đăng trên claude.dev thành ghi chú ngắn cho AI agent: chọn effort và model, prompt caching, context engineering, viết skill, mod Claude Code, eval và workflow. Ghi chú viết bằng lời riêng và dẫn link bài gốc; một workflow kiểm tra site mỗi giờ và tự phát hành bản mới khi có bài hoặc mod mới.",
+    "stats": [
+      {
+        "value": "13",
+        "label": "Bài đã lập chỉ mục"
+      },
+      {
+        "value": "4",
+        "label": "Mod trong danh mục"
+      },
+      {
+        "value": "12",
+        "label": "Ghi chú chủ đề"
+      },
+      {
+        "value": "1h",
+        "label": "Chu kỳ kiểm tra"
+      },
+      {
+        "value": "4",
+        "label": "Nền tảng agent"
+      },
+      {
+        "value": "MIT",
+        "label": "Giấy phép"
+      }
+    ]
+  },
+  "en": {
+    "nameA": "claude.dev",
+    "nameB": "Skill",
+    "tagline": "Unofficial claude.dev notes, refreshed hourly",
+    "desc": "An unofficial skill that turns the engineering posts Anthropic publishes on claude.dev into short notes for AI agents: effort and model choice, prompt caching, context engineering, writing skills, Claude Code mods, evals and workflows. Notes are written in the project's own words and link to the original posts; a workflow checks the site every hour and publishes a new release when posts or mods change.",
+    "stats": [
+      {
+        "value": "13",
+        "label": "Posts indexed"
+      },
+      {
+        "value": "4",
+        "label": "Mods catalogued"
+      },
+      {
+        "value": "12",
+        "label": "Topic notes"
+      },
+      {
+        "value": "1h",
+        "label": "Check cadence"
+      },
+      {
+        "value": "4",
+        "label": "Agent platforms"
+      },
+      {
+        "value": "MIT",
+        "label": "License"
+      }
+    ]
+  },
+  "evidence": {
+    "posts": "keys of posts in data/source-state.json",
+    "mods": "mods in data/source-state.json",
+    "notes": "skills/claude-dev-skill/references/*.md other than index.md and mods-catalog.md",
+    "cadence": "the hourly cron in .github/workflows/update.yml",
+    "platforms": ".claude-plugin/plugin.json, .codex-plugin/plugin.json, gemini-extension.json, .agents/plugins/marketplace.json",
+    "license": "LICENSE"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "claude-dev-skill",
+  "version": "0.1.0",
+  "description": "Apply the guidance Anthropic publishes on claude.dev to your Claude Code and Claude API work, with a live check for posts newer than the notes.",
+  "author": {
+    "name": "Bui Dang Minh",
+    "url": "https://github.com/buidangminh23"
+  },
+  "homepage": "https://github.com/buidangminh23/claude-dev-skill",
+  "repository": "https://github.com/buidangminh23/claude-dev-skill",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "claude-dev",
+    "context-engineering",
+    "developer-tools"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "claude.dev Skill",
+        "shortDescription": "Fresh claude.dev guidance",
+        "longDescription": "An unofficial skill that turns the engineering posts Anthropic publishes on claude.dev into short working notes: context engineering, effort levels, prompting and steering long runs, prompt caching, skills and mods, eval design, dynamic workflows, tool design and HTML outputs. Notes are written in the project's own words and link to the original posts, which the skill reads directly when it needs detail. A scheduled job checks the site every hour and publishes a new release when posts or mods change. Not affiliated with or endorsed by Anthropic.",
+        "developerName": "Bui Dang Minh",
+        "category": "Developer Tools",
+        "websiteURL": "https://github.com/buidangminh23/claude-dev-skill",
+        "supportURL": "https://github.com/buidangminh23/claude-dev-skill/issues",
+        "defaultPrompt": [
+          "What does claude.dev say about structuring this prompt for caching?",
+          "Pick an effort level for this task using the claude.dev guidance.",
+          "Are there claude.dev posts newer than this skill's notes?"
+        ],
+        "brandColor": "#D97757",
+        "logo": "./assets/claude-code.svg",
+        "composerIcon": "./assets/claude-code.svg"
+      }
+    }
+  }
+}
