@@ -110,16 +110,19 @@ jobs:
           claude_args: |
             --max-turns 80
             --allowedTools "Edit(skills/claude-dev-skill/references/**),Edit(skills/claude-dev-skill/SKILL.md),Edit(.cache/distill-result.json),Bash(node scripts/guard.mjs --sources .cache/sources)"
-            --disallowedTools "WebFetch,WebSearch,Task,Read(.git/**),Read(//proc/**),Read(~/**)"
+            --disallowedTools "WebFetch,WebSearch,Task,Read(.git/**),Read(//proc/**)"
 
       - name: Hand the notes over
         id: handoff
         if: steps.plan.outputs.run == 'true'
         env:
           OUTCOME: ${{ steps.claude.outcome }}
+          EXECUTION_FILE: ${{ steps.claude.outputs.execution_file }}
         run: |
           out="$RUNNER_TEMP/handoff"
-          stop() { echo "$1"; echo "reason=$1" >> "$GITHUB_OUTPUT"; echo "kept=false" >> "$GITHUB_OUTPUT"; exit 0; }
+          denials=$(jq -r --arg ws "$GITHUB_WORKSPACE/" '[.[] | select(.type == "result") | .permission_denials[]? | .tool_name + " " + ((.tool_input.file_path // .tool_input.path // .tool_input.pattern // .tool_input.command // "") | tostring | ltrimstr($ws) | gsub("[\r\n]+"; " ") | .[0:120])] | unique | join("; ")' "${EXECUTION_FILE:-$RUNNER_TEMP/claude-execution-output.json}" 2>/dev/null || true)
+          [ -z "$denials" ] || echo "Permission denials: $denials"
+          stop() { msg="$1${denials:+ Permission denials: $denials.}"; echo "$msg"; echo "reason=$msg" >> "$GITHUB_OUTPUT"; echo "kept=false" >> "$GITHUB_OUTPUT"; exit 0; }
           git checkout -q HEAD -- "$SKILL/references/index.md" "$SKILL/references/mods-catalog.md"
           [ "$OUTCOME" = success ] || stop "Claude did not finish (step outcome: $OUTCOME)."
           [ -z "$(find "$SKILL" ! -type f ! -type d -print -quit)" ] || stop "Claude left a link or special file in the skill."
