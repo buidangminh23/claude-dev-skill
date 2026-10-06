@@ -101,7 +101,7 @@ Posts that cannot be distilled yet stay in a pending list and are retried every 
 
 ### Security model
 
-The model reads text from the web, so it never holds a credential that can change this repository. The distill job runs with a read-only token, may edit only the notes and the description, note table and principles of `SKILL.md`, cannot use web tools, and can run only the guard. The publishing job never executes anything from the artifact: it copies notes with expected names, fetches the posts itself and runs the guard from `main` before anything is committed. The rest of `SKILL.md`, the scripts and the workflows change only through commits by people. Actions are pinned to commit SHAs and updated by Dependabot.
+The model reads text from the web, so it never holds a credential that can change this repository. The distill job runs with a read-only token, may edit only the notes and the description, note table and principles of `SKILL.md`, cannot use web tools, and can run only the guard; its shell commands run inside bubblewrap with the job's credentials scrubbed from their environment. The publishing job never executes anything from the artifact: it copies notes with expected names, fetches the posts itself and runs the guard from `main` before anything is committed. The rest of `SKILL.md`, the scripts and the workflows change only through commits by people. Actions are pinned to commit SHAs and updated by Dependabot.
 
 ### One-time setup for maintainers
 

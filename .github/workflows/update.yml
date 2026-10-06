@@ -80,6 +80,20 @@ jobs:
           SLUGS: ${{ steps.plan.outputs.slugs }}
         run: node scripts/fetch-sources.mjs .cache/sources --task .cache/distill-task.md --pending "$SLUGS"
 
+      - name: Install subprocess isolation for Claude
+        if: steps.plan.outputs.run == 'true'
+        run: |
+          for attempt in 1 2 3; do
+            sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends bubblewrap socat && break
+            [ "$attempt" = 3 ] && exit 1
+            sleep 5
+          done
+          if [ -f /proc/sys/kernel/apparmor_restrict_unprivileged_userns ]; then
+            sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+          fi
+          bwrap --ro-bind / / --dev /dev --proc /proc --unshare-all true
+          echo "bubblewrap $(bwrap --version) isolates Claude's shell commands"
+
       - name: Distill notes with Claude
         id: claude
         if: steps.plan.outputs.run == 'true'
