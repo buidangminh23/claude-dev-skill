@@ -186,6 +186,25 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+      - name: Finish a release that stopped part-way
+        id: resume
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="v$(node -p "require('./package.json').version")"
+          if [ "$(gh release view "$tag" --json isDraft --jq .isDraft 2>/dev/null || true)" = false ]; then exit 0; fi
+          commit=$(git log --format='%H %s' | awk -v want="release: $tag" '{ hash = $1; $1 = ""; sub(/^ /, ""); if ($0 == want) { print hash; exit } }')
+          if [ -z "$commit" ]; then
+            echo "No release commit for $tag yet; nothing to finish."
+            exit 0
+          fi
+          echo "Finishing $tag at $commit"
+          git -c advice.detachedHead=false checkout -q "$commit"
+          git rev-parse -q --verify "refs/tags/$tag" > /dev/null || git tag -a "$tag" -m "$tag"
+          node scripts/release.mjs push-tag "$tag"
+          node scripts/release.mjs publish "$tag"
+          git checkout -q "$BRANCH"
+
       - name: Detect changes on claude.dev
         id: detect
         run: node scripts/detect.mjs --write --report "$RUNNER_TEMP/report.json" --notes "$RUNNER_TEMP/notes.md"
@@ -289,7 +308,7 @@ jobs:
           git commit -q -m "release: v$version"
           git push origin "HEAD:$BRANCH" || { git pull -q --rebase origin "$BRANCH" && npm test && git push origin "HEAD:$BRANCH"; }
           git tag -a "v$version" -m "v$version"
-          git push origin "v$version"
+          node scripts/release.mjs push-tag "v$version"
           node scripts/release.mjs publish "v$version"
           echo "version=$version" >> "$GITHUB_OUTPUT"
 
@@ -326,6 +345,8 @@ jobs:
           REASON: ${{ needs.distill.outputs.reason }}
           APPLIED: ${{ steps.apply.outputs.result }}
           FINAL_OK: ${{ steps.final.outputs.ok }}
+          RELEASE: ${{ steps.release.outcome }}
+          RESUME: ${{ steps.resume.outcome }}
         run: |
           distill=skipped
           if [ "$RAN" = true ]; then distill="${OUTCOME:-failure}"; fi
@@ -336,4 +357,8 @@ jobs:
           fi
           if [ "$APPLIED" = rejected ]; then args+=(--guard "$RUNNER_TEMP/guard.txt"); fi
           if [ "$FINAL_OK" = false ]; then args+=(--release-blocked "$RUNNER_TEMP/final.txt"); fi
+          if [ "$RELEASE" = failure ] || [ "$RESUME" = failure ]; then
+            printf 'The release step failed in %s/%s/actions/runs/%s; the next run finishes a release whose commit is already on main.\n' "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID" >> "$RUNNER_TEMP/final.txt"
+            [ "$FINAL_OK" = false ] || args+=(--release-blocked "$RUNNER_TEMP/final.txt")
+          fi
           node scripts/attention.mjs "${args[@]}"

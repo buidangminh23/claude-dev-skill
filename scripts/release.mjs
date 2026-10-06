@@ -205,6 +205,38 @@ const gh = (args) => execFileSync('gh', args, { cwd: ROOT, encoding: 'utf8', std
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 /**
+ * Push a local tag to origin. GitHub has rejected a job-token tag push once with a bare "(failed)" that could not be
+ * reproduced, so retry with backoff, stop as soon as the tag is on the remote, and fall back to the git refs API.
+ */
+export async function pushTag(tag, { run = runCommand, wait = sleep, attempts = 4, repo = process.env.GITHUB_REPOSITORY } = {}) {
+  const errors = [];
+  const onRemote = () => {
+    try {
+      return run('git', ['ls-remote', '--tags', 'origin', `refs/tags/${tag}`]).trim() !== '';
+    } catch {
+      return false;
+    }
+  };
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    if (attempt > 1 && onRemote()) return `${tag} reached origin on attempt ${attempt - 1}`;
+    try {
+      run('git', ['push', 'origin', `refs/tags/${tag}`]);
+      return `Pushed ${tag} on attempt ${attempt}`;
+    } catch (error) {
+      errors.push(String(error.stderr || error.message).trim().split('\n').slice(-1)[0]);
+      if (attempt < attempts) await wait(10000 * 2 ** (attempt - 1));
+    }
+  }
+  if (onRemote()) return `${tag} reached origin after ${attempts} attempts`;
+  if (!repo) throw new Error(`Could not push ${tag}: ${errors.join(' | ')}`);
+  const sha = run('git', ['rev-parse', `${tag}^{commit}`]).trim();
+  run('gh', ['api', `repos/${repo}/git/refs`, '-f', `ref=refs/tags/${tag}`, '-f', `sha=${sha}`]);
+  return `Created ${tag} through the API after git failed: ${errors.join(' | ')}`;
+}
+
+const runCommand = (command, args) => execFileSync(command, args, { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+
+/**
  * The tag that https://github.com/<repo>/releases/latest redirects to, the same lookup the installers make.
  */
 export async function latestTag(repo, { fetchImpl = globalThis.fetch } = {}) {
@@ -258,6 +290,10 @@ async function main(argv) {
   else if (command === 'notes') process.stdout.write(`${validate(ROOT, tag).notes}\n`);
   else if (command === 'pack') pack(tag);
   else if (command === 'publish') process.stdout.write(`${await publish(tag)}\n`);
+  else if (command === 'push-tag') {
+    if (!tag) throw new Error('usage: release.mjs push-tag <tag>');
+    process.stdout.write(`${await pushTag(tag)}\n`);
+  }
   else if (command === 'sync') process.stdout.write(`Manifests at v${syncManifests()}\n`);
   else if (command === 'stats') process.stdout.write(`${JSON.stringify(syncWebCard())}\n`);
   else if (command === 'bump') {

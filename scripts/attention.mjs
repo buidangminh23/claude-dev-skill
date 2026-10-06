@@ -33,7 +33,7 @@ export function compose({ state, policy, report = {}, hasToken = false, distill 
     else items.push(`- **${pending.length} post(s) wait for distillation**: ${list}. Last attempt in this run: ${distill}. Retries run at 03, 09, 15 and 21 UTC, or start one with the workflow's "distill" input.`);
   }
   if (guard.trim()) items.push(`- **Distilled notes were not applied.** Nothing from that attempt was published:\n\n\`\`\`\n${guard.trim().slice(0, 3000)}\n\`\`\``);
-  if (releaseBlocked.trim()) items.push(`- **Release blocked.** The committed skill fails the guard:\n\n\`\`\`\n${releaseBlocked.trim().slice(0, 3000)}\n\`\`\``);
+  if (releaseBlocked.trim()) items.push(`- **Release blocked:**\n\n\`\`\`\n${releaseBlocked.trim().slice(0, 3000)}\n\`\`\``);
   const events = [];
   if (report.removedPosts?.length) events.push({ title: `claude.dev removed ${report.removedPosts.length} post(s)`, body: `Removed: ${report.removedPosts.map((post) => `\`${post.slug}\` (${post.title})`).join(', ')}.\n\nNotes that cite them now fail the link check. Remove or replace those citations.` });
   if (report.siteMapChanged) events.push({ title: 'claude.dev changed its llms.txt outside the post list', body: 'The non-post part of https://claude.dev/llms.txt changed. Check whether the site added a new kind of resource worth watching.' });

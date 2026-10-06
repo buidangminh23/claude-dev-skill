@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { MANIFESTS, bump, checkInstallerContract, latestTag, measure, nextVersion, pluginArchivePaths, releaseNotes, validate, zipEntries } from '../scripts/release.mjs';
+import { MANIFESTS, bump, checkInstallerContract, latestTag, measure, nextVersion, pluginArchivePaths, pushTag, releaseNotes, validate, zipEntries } from '../scripts/release.mjs';
 
 const COPY = ['package.json', 'plugin.json', 'gemini-extension.json', 'README.md', 'LICENSE', 'THIRD_PARTY_NOTICES.md', 'CHANGELOG.md', 'web-card.json', 'assets', 'skills', 'data', '.agents', '.claude-plugin', '.codex-plugin', '.github/workflows/update.yml'];
 
@@ -164,4 +164,24 @@ test('latestTag reads the tag that releases/latest redirects to', async () => {
   assert.equal(await latestTag('o/r', { fetchImpl }), 'v1.2.3');
   assert.deepEqual(calls, [['https://github.com/o/r/releases/latest', 'HEAD', 'manual']]);
   assert.equal(await latestTag('o/r', { fetchImpl: async () => ({ headers: new Headers() }) }), null);
+});
+
+test('pushTag retries, notices a tag that already arrived, and falls back to the API', async () => {
+  const waits = [];
+  const wait = async (ms) => { waits.push(ms); };
+  const fail = (message) => { const error = new Error(message); error.stderr = `! [remote rejected] v1 -> v1 (${message})`; throw error; };
+  const script = (steps) => {
+    const calls = [];
+    return { calls, run: (command, args) => { calls.push(`${command} ${args.join(' ')}`); const step = steps.shift(); return typeof step === 'function' ? step() : step ?? ''; } };
+  };
+  let probe = script([() => fail('failed'), '', () => fail('failed'), '', '']);
+  assert.equal(await pushTag('v1', { run: probe.run, wait, repo: 'o/r' }), 'Pushed v1 on attempt 3');
+  assert.deepEqual(waits, [10000, 20000]);
+  probe = script([() => fail('failed'), 'abc\trefs/tags/v1']);
+  assert.equal(await pushTag('v1', { run: probe.run, wait, repo: 'o/r' }), 'v1 reached origin on attempt 1');
+  probe = script([() => fail('failed'), '', () => fail('failed'), '', 'deadbeef\n', '{}']);
+  assert.match(await pushTag('v1', { run: probe.run, wait, attempts: 2, repo: 'o/r' }), /^Created v1 through the API after git failed: ! \[remote rejected\] v1 -> v1 \(failed\)/);
+  assert.equal(probe.calls.at(-1), 'gh api repos/o/r/git/refs -f ref=refs/tags/v1 -f sha=deadbeef');
+  probe = script([() => fail('failed'), '']);
+  await assert.rejects(pushTag('v1', { run: probe.run, wait, attempts: 1, repo: '' }), /Could not push v1/);
 });
