@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/logo.svg" width="112" alt="claude-dev-skill logo">
+<img src="assets/claude-code.svg" width="112" alt="Claude Code mark">
 
 # claude-dev-skill
 
@@ -28,4 +28,4 @@ This project is independent. It is not affiliated with, endorsed by, or sponsore
 
 ## License
 
-MIT for the contents of this repository. See [LICENSE](LICENSE). The Claude Code and Codex marks in `assets/` are trademarks of their owners and are used only to name compatible tools; see [assets/SOURCES.md](assets/SOURCES.md) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+MIT for the contents of this repository. See [LICENSE](LICENSE). The Claude Code mark (the project icon) and the Codex mark in `assets/` are trademarks of Anthropic, PBC and OpenAI; they are reproduced unchanged and do not mean either company endorses this project. See [assets/SOURCES.md](assets/SOURCES.md) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
