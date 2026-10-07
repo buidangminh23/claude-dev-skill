@@ -1,6 +1,6 @@
 {
   "name": "claude-dev-skill",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Unofficial skill built from the claude.dev engineering blog: context, effort, prompting, caching, skills, mods, evals and workflows, refreshed hourly.",
   "contextFileName": "skills/claude-dev-skill/SKILL.md"
 }

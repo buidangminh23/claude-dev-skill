@@ -2,6 +2,12 @@
 
 Releases made by the update workflow list the claude.dev posts and mods that changed since the previous release.
 
+## [0.1.3] - 2026-10-07
+
+### Updated posts on claude.dev
+
+- [Getting started with Claude Code mods](https://claude.dev/blog/getting-started-with-claude-code-mods/)
+
 ## [0.1.2] - 2026-10-06
 
 ### New posts on claude.dev
