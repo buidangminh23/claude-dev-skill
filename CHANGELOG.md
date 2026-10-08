@@ -2,6 +2,12 @@
 
 Releases made by the update workflow list the claude.dev posts and mods that changed since the previous release.
 
+## [0.1.4] - 2026-10-08
+
+### New posts on claude.dev
+
+- 2026-10-08 [Building effective agent automations](https://claude.dev/blog/building-effective-agent-automations/)
+
 ## [0.1.3] - 2026-10-07
 
 ### Updated posts on claude.dev
