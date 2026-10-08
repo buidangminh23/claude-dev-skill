@@ -42,6 +42,12 @@
       "sha256": "559f5e6f75b96c0b5d349a0be727d0248dae9ac1033adbcf5a558157bb6ba34b",
       "distilled": "559f5e6f75b96c0b5d349a0be727d0248dae9ac1033adbcf5a558157bb6ba34b"
     },
+    "building-effective-agent-automations": {
+      "date": "2026-10-08",
+      "title": "Building effective agent automations",
+      "sha256": "7edbfffa5d660ac98c9d1d4ece74e1cdb72685038fe333abfc0c5874fe82e7bd",
+      "distilled": null
+    },
     "building-with-claude-sonnet-5-5": {
       "date": "2026-09-28",
       "title": "Building with Claude Sonnet 5.5",
@@ -116,10 +122,11 @@
     }
   },
   "etags": {
-    "page:mods": "W/\"219bc38a0d0df3a227154b8b2225df5a\"",
-    "page:terms": "W/\"f578f9d194cad13a065e388d5844b165\"",
+    "page:mods": "W/\"46e70e630d4400a3e3ba2a904980ac0d\"",
+    "page:terms": "W/\"1ff0a3242ccaf2b83daddfbb4a4fc122\"",
     "post:a-harness-for-every-task-dynamic-workflows-in-claude-code": "W/\"2ca9901e9b8a07d1393471e2773f9827\"",
     "post:automating-eval-design-and-hillclimbing": "W/\"fadc8eeb50a91011668e9b0190502f39\"",
+    "post:building-effective-agent-automations": "W/\"4bafddb7448cf097bb4ea05c2d416c32\"",
     "post:building-with-claude-sonnet-5-5": "W/\"83cb3acca9a8b851442cb36e1808b579\"",
     "post:claude-code-in-the-cloud": "W/\"e6df0d4899b586cddb6664704c14aa50\"",
     "post:getting-started-with-claude-code-mods": "W/\"5973586257c520c3f81cef59599263ed\"",
