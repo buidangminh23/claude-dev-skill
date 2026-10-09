@@ -1,6 +1,6 @@
 ---
 name: claude-dev-skill
-description: Use for Claude Code and Claude API work covered by Anthropic's claude.dev blog: picking effort or Sonnet vs Opus, cutting task cost and prompt-cache misses, briefing long unattended runs, trimming CLAUDE.md, system prompts or rules, writing skills or Claude Code mods, multi-agent workflows, evals and hillclimbing, agent tool design, HTML outputs, measurable speedups. Unofficial notes; also checks claude.dev for newer posts.
+description: Use for Claude Code and Claude API work covered by Anthropic's claude.dev blog: picking effort or Sonnet vs Opus, cutting task cost and prompt-cache misses, briefing long unattended runs, trimming CLAUDE.md, system prompts or rules, writing skills or Claude Code mods, multi-agent workflows, evals and hillclimbing, agent tool design, scheduled agent automations, HTML outputs, measurable speedups. Unofficial notes; also checks claude.dev for newer posts.
 ---
 
 # claude.dev guidance
@@ -32,6 +32,7 @@ Notes carry dates, and some facts belong to a specific model or Claude Code vers
 | A long, visual, comparative or shared output | [html-outputs.md](references/html-outputs.md) |
 | Making an app or service faster with Claude | [performance.md](references/performance.md) |
 | Deciding on, briefing or setting up Claude Code cloud sessions, or fixing GitHub connection | [cloud-sessions.md](references/cloud-sessions.md) |
+| Building a scheduled agent that reads sources and posts a digest, or fixing one that misses or repeats items | [agent-automations.md](references/agent-automations.md) |
 | Anything else | [index.md](references/index.md) lists every post with its sections |
 
 ## Principles shared across the posts
