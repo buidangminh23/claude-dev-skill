@@ -9,7 +9,7 @@
     {
       "name": "claude-dev-skill",
       "description": "Unofficial skill that turns the claude.dev engineering blog into working guidance for Claude Code and the Claude API, refreshed from the site every hour",
-      "version": "0.1.5",
+      "version": "0.1.6",
       "source": "./",
       "category": "development",
       "author": {

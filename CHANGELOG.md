@@ -2,6 +2,16 @@
 
 Releases made by the update workflow list the claude.dev posts and mods that changed since the previous release.
 
+## [0.1.6] - 2026-10-09
+
+### Updated posts on claude.dev
+
+- [Claude Code in the cloud: a field guide to cloud sessions](https://claude.dev/blog/claude-code-in-the-cloud/)
+
+### Notes rewritten
+
+- `references/cloud-sessions.md`
+
 ## [0.1.5] - 2026-10-09
 
 ### Notes rewritten
