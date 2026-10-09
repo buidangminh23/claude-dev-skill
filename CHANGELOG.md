@@ -2,6 +2,13 @@
 
 Releases made by the update workflow list the claude.dev posts and mods that changed since the previous release.
 
+## [0.1.5] - 2026-10-09
+
+### Notes rewritten
+
+- `SKILL.md`
+- `references/agent-automations.md`
+
 ## [0.1.4] - 2026-10-08
 
 ### New posts on claude.dev
