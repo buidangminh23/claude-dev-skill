@@ -8,6 +8,8 @@ import { fileURLToPath } from 'node:url';
 
 export const ROOT = process.env.RELEASE_ROOT ? path.resolve(process.env.RELEASE_ROOT) : path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const NAME = 'claude-dev-skill';
+export const PACKAGE = `@minhspark/${NAME}`;
+const PACKAGE_FILES = ['plugin.json', 'assets/', 'skills/', '.agents/', '.claude-plugin/', '.codex-plugin/', 'gemini-extension.json', 'THIRD_PARTY_NOTICES.md', 'CHANGELOG.md'];
 export const MANIFESTS = ['plugin.json', '.claude-plugin/plugin.json', '.claude-plugin/marketplace.json', '.codex-plugin/plugin.json', 'gemini-extension.json'];
 const PLUGIN_PAYLOAD = ['plugin.json', 'README.md', 'LICENSE', 'THIRD_PARTY_NOTICES.md', 'skills', 'assets', '.claude-plugin', '.codex-plugin'];
 const RELEASE_INPUTS = ['README.md', 'LICENSE', 'THIRD_PARTY_NOTICES.md', 'CHANGELOG.md', 'web-card.json', 'skills', 'assets', '.agents', 'gemini-extension.json', ...MANIFESTS];
@@ -67,7 +69,9 @@ export function syncWebCard(base = ROOT) {
 export function validate(base = ROOT, tag) {
   const pkg = readJson(base, 'package.json');
   if (!/^\d+\.\d+\.\d+$/.test(pkg.version)) throw new Error('Use a stable major.minor.patch version');
-  if (pkg.name !== NAME || pkg.private !== true) throw new Error(`Expected private package named ${NAME}`);
+  if (pkg.name !== PACKAGE || pkg.private) throw new Error(`Expected public package named ${PACKAGE}`);
+  if (pkg.publishConfig?.access !== 'public') throw new Error('package.json must publish with public access');
+  if (JSON.stringify(pkg.files) !== JSON.stringify(PACKAGE_FILES)) throw new Error(`package.json files must be ${PACKAGE_FILES.join(', ')}`);
   if (tag && tag !== `v${pkg.version}`) throw new Error(`Tag ${tag} does not match v${pkg.version}`);
   for (const file of RELEASE_INPUTS) if (!fs.existsSync(path.join(base, file))) throw new Error(`Missing release input: ${file}`);
   for (const file of MANIFESTS) {

@@ -1,0 +1,57 @@
+name: npm publish
+on:
+  workflow_run:
+    workflows: ["Update from claude.dev", "Release"]
+    types: [completed]
+  schedule:
+    - cron: "53 5 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: npm-publish
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Find the latest release missing from npm
+        id: plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          tag=$(gh release view --repo "$REPO" --json tagName --jq .tagName)
+          version="${tag#v}"
+          package='@minhspark/claude-dev-skill'
+          if ! npm view "$package" name > /dev/null 2>&1; then
+            echo "::notice::$package is not on npm yet; the first version is published by hand, then trusted publishing takes over."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          elif npm view "$package@$version" version > /dev/null 2>&1; then
+            echo "$package@$version is already on npm."
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+      - if: steps.plan.outputs.publish == 'true'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: refs/tags/${{ steps.plan.outputs.tag }}
+      - if: steps.plan.outputs.publish == 'true'
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - name: Check and publish through OIDC
+        if: steps.plan.outputs.publish == 'true'
+        env:
+          TAG: ${{ steps.plan.outputs.tag }}
+        run: |
+          npm test
+          node scripts/release.mjs check "$TAG"
+          npm publish --access public
