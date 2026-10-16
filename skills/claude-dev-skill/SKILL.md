@@ -33,6 +33,7 @@ Notes carry dates, and some facts belong to a specific model or Claude Code vers
 | Making an app or service faster with Claude | [performance.md](references/performance.md) |
 | Deciding on, briefing or setting up Claude Code cloud sessions, or fixing GitHub connection | [cloud-sessions.md](references/cloud-sessions.md) |
 | Building a scheduled agent that reads sources and posts a digest, or fixing one that misses or repeats items | [agent-automations.md](references/agent-automations.md) |
+| Setting up or tuning code review, risk-based approval or AI reviewers for agent-written pull requests | [code-review.md](references/code-review.md) |
 | Anything else | [index.md](references/index.md) lists every post with its sections |
 
 ## Principles shared across the posts
