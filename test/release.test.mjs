@@ -59,8 +59,14 @@ test('validation catches manifest drift, bad presentation fields and stale web c
     const pkg = readJson(root, 'package.json');
     writeJson(root, 'package.json', { ...pkg, version: '0.2.0-beta.1' });
     assert.throws(() => validate(root), /stable/);
-    writeJson(root, 'package.json', { ...pkg, private: false });
-    assert.throws(() => validate(root), /private package/);
+    writeJson(root, 'package.json', { ...pkg, private: true });
+    assert.throws(() => validate(root), /public package/);
+    writeJson(root, 'package.json', { ...pkg, name: 'claude-dev-skill' });
+    assert.throws(() => validate(root), /public package/);
+    writeJson(root, 'package.json', { ...pkg, publishConfig: {} });
+    assert.throws(() => validate(root), /public access/);
+    writeJson(root, 'package.json', { ...pkg, files: [...pkg.files, 'data/'] });
+    assert.throws(() => validate(root), /files must be/);
     writeJson(root, 'package.json', pkg);
     const portable = readJson(root, 'plugin.json');
     const presentation = portable.extensions['com.openai'].interface;

@@ -1,7 +1,6 @@
 {
-  "name": "claude-dev-skill",
+  "name": "@minhspark/claude-dev-skill",
   "version": "0.1.7",
-  "private": true,
   "description": "Unofficial, auto-updating agent skill built from the claude.dev engineering blog",
   "license": "MIT",
   "type": "module",
@@ -13,6 +12,30 @@
   "bugs": {
     "url": "https://github.com/buidangminh23/claude-dev-skill/issues"
   },
+  "keywords": [
+    "agent-skills",
+    "claude",
+    "claude-code",
+    "claude-dev",
+    "codex",
+    "gemini",
+    "context-engineering",
+    "prompt-caching"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "plugin.json",
+    "assets/",
+    "skills/",
+    ".agents/",
+    ".claude-plugin/",
+    ".codex-plugin/",
+    "gemini-extension.json",
+    "THIRD_PARTY_NOTICES.md",
+    "CHANGELOG.md"
+  ],
   "scripts": {
     "test": "node --test",
     "check": "node scripts/release.mjs check",
