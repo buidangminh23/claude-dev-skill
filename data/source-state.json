@@ -96,6 +96,12 @@
       "sha256": "2f74bdcc6029d2ac1f627c44e6c812c411157f0306fb332aabc025e385d7c2b5",
       "distilled": "2f74bdcc6029d2ac1f627c44e6c812c411157f0306fb332aabc025e385d7c2b5"
     },
+    "solving-code-review-at-anthropic": {
+      "date": "2026-10-15",
+      "title": "How the Claude Code team does code review",
+      "sha256": "720c40bedec07f0e9f162a12fa0c809cca97cb204af13a32ba5f9038e449a9e6",
+      "distilled": null
+    },
     "spending-your-effort": {
       "date": "2026-09-25",
       "title": "Using Claude Code: Spending your effort",
@@ -122,8 +128,8 @@
     }
   },
   "etags": {
-    "page:mods": "W/\"2f77e5ed891b7180121522fbef53cedf\"",
-    "page:terms": "W/\"d66d1707b10b00dbd25fba05859a8c17\"",
+    "page:mods": "W/\"0ca75a20dc88fefb45b41b22341e8c60\"",
+    "page:terms": "W/\"272fe6cacc882b43ca3cc24c4d0de004\"",
     "post:a-harness-for-every-task-dynamic-workflows-in-claude-code": "W/\"2ca9901e9b8a07d1393471e2773f9827\"",
     "post:automating-eval-design-and-hillclimbing": "W/\"fadc8eeb50a91011668e9b0190502f39\"",
     "post:building-effective-agent-automations": "W/\"4bafddb7448cf097bb4ea05c2d416c32\"",
@@ -135,6 +141,7 @@
     "post:lessons-from-building-claude-code-how-we-use-skills": "W/\"acba75eef56190d5aaa9189279bc9cc8\"",
     "post:lessons-from-building-claude-code-prompt-caching-is-everything": "W/\"6583c8a649d8a1d3854eb9daaaf02485\"",
     "post:seeing-like-an-agent": "W/\"acb5e982e504aa9f3ed6399873d8156b\"",
+    "post:solving-code-review-at-anthropic": "W/\"9fd146b4ba8bfea88a5fc7d6f3d5eaa3\"",
     "post:spending-your-effort": "W/\"636a1d244d37450a2ef2ea2b01a52a76\"",
     "post:the-new-rules-of-context-engineering-for-claude-5-generation-models": "W/\"9b276d95452924f91e7fbc9c8506c91a\"",
     "post:using-claude-code-the-unreasonable-effectiveness-of-html": "W/\"63f39680334e66a2f4b89c82477ecef5\"",
