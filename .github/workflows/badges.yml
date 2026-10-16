@@ -40,7 +40,7 @@ jobs:
           else
             git worktree add -q --detach "$tree"
             git -C "$tree" checkout -q --orphan badges
-            git -C "$tree" rm -rq .
+            git -C "$tree" rm -rfq .
           fi
           cp "${files[@]}" "$tree/"
           git -C "$tree" add -- '*.svg'
