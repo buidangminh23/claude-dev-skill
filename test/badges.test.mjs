@@ -56,3 +56,11 @@ test('reports a rejected traffic token as a failure and keeps the npm badges', a
   assert.deepEqual(result.written, ['npm-downloads.svg', 'npm-downloads-month.svg']);
   assert.match(result.failed[0], /^views: .*403/);
 });
+
+test('renders only the requested sources', async () => {
+  const out = tempDir();
+  const { calls, fetchImpl } = fakeFetch();
+  const result = await buildBadges({ name: NAME, repo: REPO, token: 'secret', out, sources: ['views'], fetchImpl });
+  assert.deepEqual(result.written, ['github-views.svg']);
+  assert.ok(calls.every((call) => !call.url.includes('npmjs')));
+});

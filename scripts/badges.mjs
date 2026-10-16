@@ -75,12 +75,13 @@ export async function githubViews(repo, token, options = {}) {
  * Write every badge whose source answered, and report the sources that did not. A missing source leaves the badge
  * already published in place.
  */
-export async function buildBadges({ name, repo, token, out, fetchImpl = globalThis.fetch }) {
+export async function buildBadges({ name, repo, token, out, sources = ['npm', 'views'], fetchImpl = globalThis.fetch }) {
   fs.mkdirSync(out, { recursive: true });
   const written = [];
   const skipped = [];
   const failed = [];
   const collect = async (source, run) => {
+    if (!sources.includes(source)) return;
     try {
       await run();
     } catch (error) {
@@ -115,7 +116,8 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   }
   const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
   const pkg = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
-  const result = await buildBadges({ name: pkg.name, repo: repositoryOf(pkg), token: process.env.ANALYTICS_TOKEN?.trim(), out: path.resolve(out) });
+  const sources = (process.env.BADGE_SOURCES || 'npm,views').split(',').map((source) => source.trim()).filter(Boolean);
+  const result = await buildBadges({ name: pkg.name, repo: repositoryOf(pkg), token: process.env.ANALYTICS_TOKEN?.trim(), out: path.resolve(out), sources });
   process.stdout.write(`${JSON.stringify(result)}\n`);
   for (const line of result.skipped) process.stdout.write(`::notice::${line}; the published badge is kept\n`);
   for (const line of result.failed) process.stdout.write(`::error::${line}\n`);
