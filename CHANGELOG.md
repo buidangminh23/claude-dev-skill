@@ -2,6 +2,12 @@
 
 Releases made by the update workflow list the claude.dev posts and mods that changed since the previous release.
 
+## [0.1.8] - 2026-10-19
+
+### Updated posts on claude.dev
+
+- [How the Claude Code team does code review](https://claude.dev/blog/solving-code-review-at-anthropic/)
+
 ## [0.1.7] - 2026-10-16
 
 ### New posts on claude.dev
