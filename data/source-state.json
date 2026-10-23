@@ -34,7 +34,7 @@
       "date": "2026-06-02",
       "title": "A harness for every task: dynamic workflows in Claude Code",
       "sha256": "cfd8e8dc7e576ad3e235c580cee3b046ccc99e2e3faa413cce922aebfc31ab8d",
-      "distilled": "5db370c066fddcc6d07e7f945204c9e74b356ba034bd08b4c39588102aa377cf"
+      "distilled": "cfd8e8dc7e576ad3e235c580cee3b046ccc99e2e3faa413cce922aebfc31ab8d"
     },
     "automating-eval-design-and-hillclimbing": {
       "date": "2026-09-28",
@@ -82,7 +82,7 @@
       "date": "2026-06-03",
       "title": "Lessons from building Claude Code: How we use skills",
       "sha256": "087f317e29ab2a63293aee723b74e277ad94b0b61566ed13af2b073bafa44a40",
-      "distilled": "6ab363a69125a37ff8150611ccdf7489ae6d820804b5ca200b65ab4b7cd61647"
+      "distilled": "087f317e29ab2a63293aee723b74e277ad94b0b61566ed13af2b073bafa44a40"
     },
     "lessons-from-building-claude-code-prompt-caching-is-everything": {
       "date": "2026-04-30",
@@ -100,7 +100,7 @@
       "date": "2026-10-15",
       "title": "How the Claude Code team does code review",
       "sha256": "9c4c31c14bdcad128ddceb137fecb136285e9f5766af49014bd625988f94f264",
-      "distilled": "720c40bedec07f0e9f162a12fa0c809cca97cb204af13a32ba5f9038e449a9e6"
+      "distilled": "9c4c31c14bdcad128ddceb137fecb136285e9f5766af49014bd625988f94f264"
     },
     "spending-your-effort": {
       "date": "2026-09-25",
