@@ -39,37 +39,37 @@
     "automating-eval-design-and-hillclimbing": {
       "date": "2026-09-28",
       "title": "Automating eval design and hillclimbing with Claude",
-      "sha256": "559f5e6f75b96c0b5d349a0be727d0248dae9ac1033adbcf5a558157bb6ba34b",
+      "sha256": "ee155c108fdc19fd37a00816d5f5139edbd47ca0337d8ea552a73518098a0329",
       "distilled": "559f5e6f75b96c0b5d349a0be727d0248dae9ac1033adbcf5a558157bb6ba34b"
     },
     "building-effective-agent-automations": {
       "date": "2026-10-08",
       "title": "Building effective agent automations",
-      "sha256": "7edbfffa5d660ac98c9d1d4ece74e1cdb72685038fe333abfc0c5874fe82e7bd",
+      "sha256": "b626bc347076b68b15d0373d8640fd5ca68e0956ce823cc9f2ad75abfa1fc17e",
       "distilled": "7edbfffa5d660ac98c9d1d4ece74e1cdb72685038fe333abfc0c5874fe82e7bd"
     },
     "building-with-claude-sonnet-5-5": {
       "date": "2026-09-28",
       "title": "Building with Claude Sonnet 5.5",
-      "sha256": "da845ee7a08f27f8854878a0df31b8b12613394d315639cb048899b8fc6a02f4",
+      "sha256": "49909c8d5bde99727fc9c22a045bf091c100f70a62279876f8a15e9c1224b687",
       "distilled": "da845ee7a08f27f8854878a0df31b8b12613394d315639cb048899b8fc6a02f4"
     },
     "claude-code-in-the-cloud": {
       "date": "2026-10-06",
       "title": "Claude Code in the cloud: a field guide to cloud sessions",
-      "sha256": "bdacc1464a6858605625f8989bf514fd3174e7f6c0154a181712878847392123",
+      "sha256": "37cce12ee088df33de600f47a23aed40f414c93fe8bb2af5ee23c392b759a4e3",
       "distilled": "bdacc1464a6858605625f8989bf514fd3174e7f6c0154a181712878847392123"
     },
     "getting-started-with-claude-code-mods": {
       "date": "2026-10-01",
       "title": "Getting started with Claude Code mods",
-      "sha256": "bff4411648cf79ee7cf7dd3b9f96351420cfac472f55124a2a0682e595241fd7",
+      "sha256": "23b78f898f721f66f5d842fed9e852fc5c377fa0d2d9b95762932743d78cabc2",
       "distilled": "bff4411648cf79ee7cf7dd3b9f96351420cfac472f55124a2a0682e595241fd7"
     },
     "getting-the-most-out-of-opus-5-5": {
       "date": "2026-09-22",
       "title": "Getting the most out of Opus 5.5 in Claude and Claude Code",
-      "sha256": "2329b738eb137439869b8d61fe264781eb25017b8ec8c8e57f0420b02bf90aef",
+      "sha256": "b4d06a4d1b1063ecb5300296d4b182aeab3ec5df6a073b2bc95c57eded6d41a1",
       "distilled": "2329b738eb137439869b8d61fe264781eb25017b8ec8c8e57f0420b02bf90aef"
     },
     "how-we-made-claude-ai-faster": {
@@ -99,19 +99,19 @@
     "solving-code-review-at-anthropic": {
       "date": "2026-10-15",
       "title": "How the Claude Code team does code review",
-      "sha256": "9c4c31c14bdcad128ddceb137fecb136285e9f5766af49014bd625988f94f264",
+      "sha256": "bb9ed64f4d767356900029af2610608d9ae8464553c0ea4f706df6237abf2020",
       "distilled": "9c4c31c14bdcad128ddceb137fecb136285e9f5766af49014bd625988f94f264"
     },
     "spending-your-effort": {
       "date": "2026-09-25",
       "title": "Using Claude Code: Spending your effort",
-      "sha256": "d44bc16ff871dab9a00e3529a3013e3a8c225f1b88b3ae99f6dc9a82df6b2e7d",
+      "sha256": "74dcf0c08e0aeccc2384114a4a78ddc5605e2d528940c3cb1451fb6d9c429f89",
       "distilled": "d44bc16ff871dab9a00e3529a3013e3a8c225f1b88b3ae99f6dc9a82df6b2e7d"
     },
     "the-new-rules-of-context-engineering-for-claude-5-generation-models": {
       "date": "2026-07-24",
       "title": "The new rules of context engineering for Claude 5 generation models",
-      "sha256": "341077d0abadc60c89a7c798d08dc001d3a4243c18c9799496f321e06178bb2b",
+      "sha256": "748f7384d88614427cacd3194b482086a53ff04cef002ef6dbd0ae0126b15988",
       "distilled": "341077d0abadc60c89a7c798d08dc001d3a4243c18c9799496f321e06178bb2b"
     },
     "using-claude-code-the-unreasonable-effectiveness-of-html": {
@@ -123,28 +123,28 @@
     "what-a-task-costs-on-opus-5-5": {
       "date": "2026-09-25",
       "title": "What a task costs on Opus 5.5",
-      "sha256": "dce16ba2e3f381c2d962f149aedb59d75801c03b08b7afde6f9d368ec90be256",
+      "sha256": "926401a0dc9c67a8119e772a2c247da8dc9456ebd2e225ff546db9a60be88821",
       "distilled": "dce16ba2e3f381c2d962f149aedb59d75801c03b08b7afde6f9d368ec90be256"
     }
   },
   "etags": {
-    "page:mods": "W/\"7c44d3b8b454adf78c9f9e3f7e7cb2e1\"",
-    "page:terms": "W/\"ccdbc25330a865d0c9675f280433fc77\"",
+    "page:mods": "W/\"50807635094c6e7fd1204e574c8a238a\"",
+    "page:terms": "W/\"b45145fea853655e1c9608c1f96ffdb9\"",
     "post:a-harness-for-every-task-dynamic-workflows-in-claude-code": "W/\"dcf75dc3bfd0e09f30df218001884347\"",
-    "post:automating-eval-design-and-hillclimbing": "W/\"fadc8eeb50a91011668e9b0190502f39\"",
-    "post:building-effective-agent-automations": "W/\"4bafddb7448cf097bb4ea05c2d416c32\"",
-    "post:building-with-claude-sonnet-5-5": "W/\"83cb3acca9a8b851442cb36e1808b579\"",
-    "post:claude-code-in-the-cloud": "W/\"b3827857c6c624f47fe71b130ccfdc73\"",
-    "post:getting-started-with-claude-code-mods": "W/\"5973586257c520c3f81cef59599263ed\"",
-    "post:getting-the-most-out-of-opus-5-5": "W/\"9c0d2763ab5d8d91535d6d5092e35aa0\"",
+    "post:automating-eval-design-and-hillclimbing": "W/\"0be0c3ea243f67e6aa3bc6211621a72b\"",
+    "post:building-effective-agent-automations": "W/\"26064e9bc0769a7756b2256bba5643a8\"",
+    "post:building-with-claude-sonnet-5-5": "W/\"9e2da2e7250a0d55946888835caa5eb4\"",
+    "post:claude-code-in-the-cloud": "W/\"3e6589ff00c762ccc317da637d68e631\"",
+    "post:getting-started-with-claude-code-mods": "W/\"189f255e626ee8a568cc68e02a8b7b1d\"",
+    "post:getting-the-most-out-of-opus-5-5": "W/\"1b04fa3fe2aafd7a62fad356bde53bff\"",
     "post:how-we-made-claude-ai-faster": "W/\"94e98133e1c3c052fec2d2b7575dc800\"",
     "post:lessons-from-building-claude-code-how-we-use-skills": "W/\"1a9add904d727ec185812190299054d8\"",
     "post:lessons-from-building-claude-code-prompt-caching-is-everything": "W/\"2c7b373cbbb5252a979db381bfc8e2db\"",
     "post:seeing-like-an-agent": "W/\"9c4c67b27b58f484fa64467fb460ede1\"",
-    "post:solving-code-review-at-anthropic": "W/\"8a843b60f0232f9a43d560e5d33886c9\"",
-    "post:spending-your-effort": "W/\"636a1d244d37450a2ef2ea2b01a52a76\"",
-    "post:the-new-rules-of-context-engineering-for-claude-5-generation-models": "W/\"9b276d95452924f91e7fbc9c8506c91a\"",
+    "post:solving-code-review-at-anthropic": "W/\"5c815d387f1f756fd935831b3b488bae\"",
+    "post:spending-your-effort": "W/\"d6ae38a96b8457ded288e1e523f42702\"",
+    "post:the-new-rules-of-context-engineering-for-claude-5-generation-models": "W/\"8804c36c35056d3ea40315fb52e14a14\"",
     "post:using-claude-code-the-unreasonable-effectiveness-of-html": "W/\"0659c6ab9540db910bc25c4511a6ec2e\"",
-    "post:what-a-task-costs-on-opus-5-5": "W/\"2aa155cb4e1362908c0940f3e8cb27e3\""
+    "post:what-a-task-costs-on-opus-5-5": "W/\"0a105d5aaf0905b3c41c54a9f39ba580\""
   }
 }
