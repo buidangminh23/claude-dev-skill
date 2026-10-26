@@ -2,6 +2,21 @@
 
 Releases made by the update workflow list the claude.dev posts and mods that changed since the previous release.
 
+## [0.1.10] - 2026-10-26
+
+### Updated posts on claude.dev
+
+- [How the Claude Code team does code review](https://claude.dev/blog/solving-code-review-at-anthropic/)
+- [Building effective agent automations](https://claude.dev/blog/building-effective-agent-automations/)
+- [Claude Code in the cloud: a field guide to cloud sessions](https://claude.dev/blog/claude-code-in-the-cloud/)
+- [Getting started with Claude Code mods](https://claude.dev/blog/getting-started-with-claude-code-mods/)
+- [Automating eval design and hillclimbing with Claude](https://claude.dev/blog/automating-eval-design-and-hillclimbing/)
+- [Building with Claude Sonnet 5.5](https://claude.dev/blog/building-with-claude-sonnet-5-5/)
+- [Using Claude Code: Spending your effort](https://claude.dev/blog/spending-your-effort/)
+- [What a task costs on Opus 5.5](https://claude.dev/blog/what-a-task-costs-on-opus-5-5/)
+- [Getting the most out of Opus 5.5 in Claude and Claude Code](https://claude.dev/blog/getting-the-most-out-of-opus-5-5/)
+- [The new rules of context engineering for Claude 5 generation models](https://claude.dev/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models/)
+
 ## [0.1.9] - 2026-10-23
 
 ### Updated posts on claude.dev
