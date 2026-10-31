@@ -70,7 +70,7 @@
       "date": "2026-09-22",
       "title": "Getting the most out of Opus 5.5 in Claude and Claude Code",
       "sha256": "b4d06a4d1b1063ecb5300296d4b182aeab3ec5df6a073b2bc95c57eded6d41a1",
-      "distilled": "2329b738eb137439869b8d61fe264781eb25017b8ec8c8e57f0420b02bf90aef"
+      "distilled": "b4d06a4d1b1063ecb5300296d4b182aeab3ec5df6a073b2bc95c57eded6d41a1"
     },
     "how-we-made-claude-ai-faster": {
       "date": "2026-09-23",
@@ -106,7 +106,7 @@
       "date": "2026-09-25",
       "title": "Using Claude Code: Spending your effort",
       "sha256": "74dcf0c08e0aeccc2384114a4a78ddc5605e2d528940c3cb1451fb6d9c429f89",
-      "distilled": "d44bc16ff871dab9a00e3529a3013e3a8c225f1b88b3ae99f6dc9a82df6b2e7d"
+      "distilled": "74dcf0c08e0aeccc2384114a4a78ddc5605e2d528940c3cb1451fb6d9c429f89"
     },
     "the-new-rules-of-context-engineering-for-claude-5-generation-models": {
       "date": "2026-07-24",
@@ -124,7 +124,7 @@
       "date": "2026-09-25",
       "title": "What a task costs on Opus 5.5",
       "sha256": "926401a0dc9c67a8119e772a2c247da8dc9456ebd2e225ff546db9a60be88821",
-      "distilled": "dce16ba2e3f381c2d962f149aedb59d75801c03b08b7afde6f9d368ec90be256"
+      "distilled": "926401a0dc9c67a8119e772a2c247da8dc9456ebd2e225ff546db9a60be88821"
     }
   },
   "etags": {
