@@ -86,6 +86,8 @@ List prices and illustrations from the posts (2026-09-25 and 2026-09-28); confir
 - Fast mode: up to 2.5x faster at 2x the price, billed to usage credits on a subscription. Batch API: half price. Plan-mode agent teams: about 7x the tokens of a standard session.
 - Sonnet 5.5 keeps Sonnet 5's per-token prices but usually needs fewer tokens, making most work up to 30% cheaper. It caches prompts from 512 tokens (Sonnet 5: 1,024). A 2000×1500 image costs about 2.5x the tokens it did on Haiku 4.5 or Sonnet 4.5/4.6; downscale when detail isn't needed.
 - "40% cheaper than Opus 5" is an estimate for typical token-billed work at default settings that counts fewer tokens per task; per token, Opus 5.5 is 20% cheaper on input and output and 60% on cache reads.
+- Subscription plans (Pro, Max, Team) pass the cheaper Opus 5.5 rate on, so limits go roughly 25% further than with Opus 5; the deeper cache-read cut applies to API billing only. Five-hour limits were also raised on those plans and on seat-based Enterprise.
+- Same token counts on both models, the post's illustrative session costs about 31% less on Opus 5.5; any further gap comes from the model doing less work, which is largest on open-ended tasks with false starts and negligible on well-scoped ones, so measure it.
 - Prompt-audit example (one 44-ticket benchmark, not a forecast): the audit saved about 9% on top of the roughly 18% from swapping Opus 4.8 for Opus 5.5 at low effort.
 - Enterprise spend averages about $13 a developer for each active day; 90% of users stay below $30 (current models). Claude Code must be v2.1.280 or newer to run Opus 5.5.
 
