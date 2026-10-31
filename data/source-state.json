@@ -40,7 +40,7 @@
       "date": "2026-09-28",
       "title": "Automating eval design and hillclimbing with Claude",
       "sha256": "ee155c108fdc19fd37a00816d5f5139edbd47ca0337d8ea552a73518098a0329",
-      "distilled": "559f5e6f75b96c0b5d349a0be727d0248dae9ac1033adbcf5a558157bb6ba34b"
+      "distilled": "ee155c108fdc19fd37a00816d5f5139edbd47ca0337d8ea552a73518098a0329"
     },
     "building-effective-agent-automations": {
       "date": "2026-10-08",
@@ -52,7 +52,7 @@
       "date": "2026-09-28",
       "title": "Building with Claude Sonnet 5.5",
       "sha256": "49909c8d5bde99727fc9c22a045bf091c100f70a62279876f8a15e9c1224b687",
-      "distilled": "da845ee7a08f27f8854878a0df31b8b12613394d315639cb048899b8fc6a02f4"
+      "distilled": "49909c8d5bde99727fc9c22a045bf091c100f70a62279876f8a15e9c1224b687"
     },
     "claude-code-in-the-cloud": {
       "date": "2026-10-06",
@@ -64,7 +64,7 @@
       "date": "2026-10-01",
       "title": "Getting started with Claude Code mods",
       "sha256": "23b78f898f721f66f5d842fed9e852fc5c377fa0d2d9b95762932743d78cabc2",
-      "distilled": "bff4411648cf79ee7cf7dd3b9f96351420cfac472f55124a2a0682e595241fd7"
+      "distilled": "23b78f898f721f66f5d842fed9e852fc5c377fa0d2d9b95762932743d78cabc2"
     },
     "getting-the-most-out-of-opus-5-5": {
       "date": "2026-09-22",
