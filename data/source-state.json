@@ -88,7 +88,7 @@
       "date": "2026-04-30",
       "title": "Lessons from building Claude Code: Prompt caching is everything",
       "sha256": "250e6c1c8263d86fca0427a921ee94ff8a6deae79b52fb103cdbe13099fec226",
-      "distilled": "3083b481e30ada8060ecdd42350cd2f4dea92fa169648f7d8ed20e8b56a8c497"
+      "distilled": "250e6c1c8263d86fca0427a921ee94ff8a6deae79b52fb103cdbe13099fec226"
     },
     "seeing-like-an-agent": {
       "date": "2026-04-10",
@@ -112,13 +112,13 @@
       "date": "2026-07-24",
       "title": "The new rules of context engineering for Claude 5 generation models",
       "sha256": "748f7384d88614427cacd3194b482086a53ff04cef002ef6dbd0ae0126b15988",
-      "distilled": "341077d0abadc60c89a7c798d08dc001d3a4243c18c9799496f321e06178bb2b"
+      "distilled": "748f7384d88614427cacd3194b482086a53ff04cef002ef6dbd0ae0126b15988"
     },
     "using-claude-code-the-unreasonable-effectiveness-of-html": {
       "date": "2026-05-20",
       "title": "Using Claude Code: The unreasonable effectiveness of HTML",
       "sha256": "8fc465ebfbcbaa86946b79647d9efd0fcd3a06b44f4bc6f243aca3b6f4b93eeb",
-      "distilled": "1a006fbd8a40cf8dfb0b86a717b6a5087c8e64096bd1f84367783fb01c2792b5"
+      "distilled": "8fc465ebfbcbaa86946b79647d9efd0fcd3a06b44f4bc6f243aca3b6f4b93eeb"
     },
     "what-a-task-costs-on-opus-5-5": {
       "date": "2026-09-25",
