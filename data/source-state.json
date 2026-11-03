@@ -46,7 +46,7 @@
       "date": "2026-10-08",
       "title": "Building effective agent automations",
       "sha256": "f7f4bdf1ba8557fb5e168ddb7b413a6659d7dd29d558c4109c6a635c0e4aa43d",
-      "distilled": "b626bc347076b68b15d0373d8640fd5ca68e0956ce823cc9f2ad75abfa1fc17e"
+      "distilled": "f7f4bdf1ba8557fb5e168ddb7b413a6659d7dd29d558c4109c6a635c0e4aa43d"
     },
     "building-with-claude-sonnet-5-5": {
       "date": "2026-09-28",
@@ -58,7 +58,7 @@
       "date": "2026-10-06",
       "title": "Claude Code in the cloud: a field guide to cloud sessions",
       "sha256": "bdbfd79d1ee4035eb45368373a405b854237e044a0e19a8e3f638a3b35366e32",
-      "distilled": "37cce12ee088df33de600f47a23aed40f414c93fe8bb2af5ee23c392b759a4e3"
+      "distilled": "bdbfd79d1ee4035eb45368373a405b854237e044a0e19a8e3f638a3b35366e32"
     },
     "getting-started-with-claude-code-mods": {
       "date": "2026-10-01",
@@ -100,7 +100,7 @@
       "date": "2026-10-15",
       "title": "How the Claude Code team does code review",
       "sha256": "a322aa7632a44e82af40bf467cd89912eb870ea646bb5df7b4d51c80d8dd8577",
-      "distilled": "bb9ed64f4d767356900029af2610608d9ae8464553c0ea4f706df6237abf2020"
+      "distilled": "a322aa7632a44e82af40bf467cd89912eb870ea646bb5df7b4d51c80d8dd8577"
     },
     "spending-your-effort": {
       "date": "2026-09-25",
