@@ -2,6 +2,12 @@
 
 Releases made by the update workflow list the claude.dev posts and mods that changed since the previous release.
 
+## [0.1.15] - 2026-11-06
+
+### Notes rewritten
+
+- `references/models-and-cost.md`
+
 ## [0.1.14] - 2026-11-03
 
 ### Updated posts on claude.dev
