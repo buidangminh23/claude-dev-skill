@@ -45,6 +45,7 @@ The cost post's clearest signal that more effort is due: the change lands in one
 - Opus 5.5 in Claude Code defaults to medium (Opus 5 used high). Medium suits well-scoped work, high is for when medium stalls, low is for renames or repeating a known pattern, and xhigh or max need a measured gain; max holds for one session only.
 - Sonnet 5.5 on the API defaults to high, the starting point except for agentic or latency-bound work: agent loops and multistep tool use begin at medium when well specified (high once harder or longer), chat at medium or low; xhigh and max only with an eval-proven gain.
 - Lower effort when you want less thinking; asking for less in the system prompt is unreliable (Sonnet post).
+- Opus 5.5 always thinks before replying, so there is no thinking setting to change, and an individual answer can use more tokens; the post expects more finished work per token but says to measure it. It also ends long runs with a report of what changed, what it found and what it needs from you, which can save reruns.
 - `/effort <level>` applies from the next request and `/effort status` shows the current level. On an API key or subscription Opus 5.5 keeps its cache across the switch, so one hard step can run higher and drop back; on Bedrock, a Claude apps gateway or Google Cloud's Agent Platform the switch wipes the cached conversation, so switch at a break. On the API, a top-level effort change drops Sonnet 5.5's cache; per-message effort (beta) keeps it.
 
 ### Subagents and agent teams

@@ -65,6 +65,8 @@ Let threads keep going past their first request, and let Claude open new threads
 
 ## Numbers worth knowing
 - Result (p75 of real users, 2026-08-13 vs 2026-08-27): about 3x faster, a 3.1x geometric mean over 13 measurements. A fresh claude.ai load became typeable in 0.55 s instead of 3.1 s. Over 3,000 merged changes caused no rollback and no incident that reached customers.
+- Other p75 results: starting a Claude Code session 0.8 s to 0.3 s; loading a Cowork cloud session 2.6 s to 0.73 s (sending a Cowork message went from 928 ms to 48 ms).
+- Streaming smoothness (about sixty PRs in one thread, 120 Hz rig): long replies blocked the main thread for about 200 ms in total instead of about 750 ms, used about a third of the CPU, and held 120 fps throughout on a 120 Hz MacBook.
 - Proxy proof: on two hot paths, 48% and 31% fewer instructions (Valgrind, `node --predictable`) gave 78% and 44% less wall-clock time (same benchmark, plain node, JIT warmed up).
 - Setup (as of 2026-09-23): Claude Tag (beta) with an internal research model that the authors place roughly level with Opus 5.5.
 
