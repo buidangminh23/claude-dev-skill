@@ -2,6 +2,12 @@
 
 Releases made by the update workflow list the claude.dev posts and mods that changed since the previous release.
 
+## [0.1.17] - 2026-11-08
+
+### Notes rewritten
+
+- `references/long-runs.md`
+
 ## [0.1.16] - 2026-11-07
 
 ### Notes rewritten
