@@ -62,6 +62,10 @@ An example policy written for this note:
 - Ask for a review of the branch diff against main that lists only merge-blocking problems, each with its location (file and line), the reason it is wrong and a way to show it failing. One early tester said Opus 5.5 on its lowest effort setting found more bugs, with fewer false alarms, than Opus 5 on high (anecdotal).
 - In research or analysis, have it flag whatever it could not confirm and say where it searched; a stated gap is worth reading.
 
+### Two smaller levers
+- For design requests, list the specific habits to leave out (a background color, label styles, button shapes); a vague "avoid a generic look" mostly swaps one default for another. Look at what it picks instead and extend the list.
+- Fast mode (`/fast`) suits back-and-forth work where you read each reply before sending the next. At Opus 5.5's launch it was a research preview: same model, quicker text, needs extra usage enabled, and costs more per token.
+
 ## Pitfalls
 - A brief without a finish line or a stop condition, so the run has no stated end state.
 - "Think carefully" rituals left in saved instructions after moving to Opus 5.5.
