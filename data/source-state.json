@@ -70,7 +70,7 @@
       "date": "2026-09-22",
       "title": "Getting the most out of Opus 5.5 in Claude and Claude Code",
       "sha256": "eb30303ecb759e12a59b0b6dbe778db7b3417e9ee4be2f7b4df4f043bdd1f551",
-      "distilled": "b4d06a4d1b1063ecb5300296d4b182aeab3ec5df6a073b2bc95c57eded6d41a1"
+      "distilled": "eb30303ecb759e12a59b0b6dbe778db7b3417e9ee4be2f7b4df4f043bdd1f551"
     },
     "how-we-made-claude-ai-faster": {
       "date": "2026-09-23",
@@ -82,7 +82,7 @@
       "date": "2026-06-03",
       "title": "Lessons from building Claude Code: How we use skills",
       "sha256": "c2f50e18448c01ea2d42df9924091b1a5f81a722501cb2565f517e70f14ffd61",
-      "distilled": "087f317e29ab2a63293aee723b74e277ad94b0b61566ed13af2b073bafa44a40"
+      "distilled": "c2f50e18448c01ea2d42df9924091b1a5f81a722501cb2565f517e70f14ffd61"
     },
     "lessons-from-building-claude-code-prompt-caching-is-everything": {
       "date": "2026-04-30",
@@ -112,7 +112,7 @@
       "date": "2026-07-24",
       "title": "The new rules of context engineering for Claude 5 generation models",
       "sha256": "b15350b5ef5c5a39f5544c294b4083c0cdcad114019646cad9b83927f3a0ae8e",
-      "distilled": "748f7384d88614427cacd3194b482086a53ff04cef002ef6dbd0ae0126b15988"
+      "distilled": "b15350b5ef5c5a39f5544c294b4083c0cdcad114019646cad9b83927f3a0ae8e"
     },
     "using-claude-code-the-unreasonable-effectiveness-of-html": {
       "date": "2026-05-20",
