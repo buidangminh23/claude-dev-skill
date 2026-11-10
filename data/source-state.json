@@ -90,6 +90,12 @@
       "sha256": "a646cece10ea936fc6a3b7f6b899dd6b2ccbcbed147a561248217e05b2521401",
       "distilled": "250e6c1c8263d86fca0427a921ee94ff8a6deae79b52fb103cdbe13099fec226"
     },
+    "safely-scaling-multi-agent-teams-with-fable-5-2": {
+      "date": "2026-11-09",
+      "title": "Safely scaling multi-agent teams with Claude Fable 5.2",
+      "sha256": "b26687e634d6c0aa9a58ca3a794e3627b4802d3782929de55086bd355cf15e5a",
+      "distilled": null
+    },
     "seeing-like-an-agent": {
       "date": "2026-04-10",
       "title": "Seeing like an agent: how we design tools in Claude Code",
@@ -125,11 +131,17 @@
       "title": "What a task costs on Opus 5.5",
       "sha256": "1fa4b6d09edd21a4a119af2317bf5c35aead9859c5a89edca83d2f6a81cc3ed7",
       "distilled": "1fa4b6d09edd21a4a119af2317bf5c35aead9859c5a89edca83d2f6a81cc3ed7"
+    },
+    "which-claude-model-should-you-build-with": {
+      "date": "2026-11-09",
+      "title": "Which Claude model should you build with? Fable, Opus, Sonnet, or Haiku",
+      "sha256": "3c0527dbae04613d11dc425c1b1d89b82f313acc114d2c6e1fa73be36606c186",
+      "distilled": null
     }
   },
   "etags": {
-    "page:mods": "W/\"05bbf130fa0888d8bb6f41a55daa0f35\"",
-    "page:terms": "W/\"16987362af0c6fb3cb884360a32a24d7\"",
+    "page:mods": "W/\"1ddcc724675e8f9e2e348664d45ee7bc\"",
+    "page:terms": "W/\"359e1fd490ea7d089a92bae465a2cab2\"",
     "post:a-harness-for-every-task-dynamic-workflows-in-claude-code": "W/\"39d485604cc23e5db9fef7c29598bcdf\"",
     "post:automating-eval-design-and-hillclimbing": "W/\"aee18298490d82b3850f630d3f70d06f\"",
     "post:building-effective-agent-automations": "W/\"61450b3be6dac30c00507a1dc7d1caa0\"",
@@ -140,11 +152,13 @@
     "post:how-we-made-claude-ai-faster": "W/\"5347de679e1c189a0f5c26af122d7f3b\"",
     "post:lessons-from-building-claude-code-how-we-use-skills": "W/\"3e80d6f5955ce4f2fc72812c8452b6f4\"",
     "post:lessons-from-building-claude-code-prompt-caching-is-everything": "W/\"ba763e7409bf58bc3953ff769501f255\"",
+    "post:safely-scaling-multi-agent-teams-with-fable-5-2": "W/\"c387670a1325aa9fc90e21a8438a8499\"",
     "post:seeing-like-an-agent": "W/\"9c4c67b27b58f484fa64467fb460ede1\"",
     "post:solving-code-review-at-anthropic": "W/\"53cae9f805c4c0b8f357a969e45bc8a5\"",
     "post:spending-your-effort": "W/\"7a6683073ba980ab33ca446d8cc58a61\"",
     "post:the-new-rules-of-context-engineering-for-claude-5-generation-models": "W/\"e2a805bc0ac090cf7252d5ab38b24018\"",
     "post:using-claude-code-the-unreasonable-effectiveness-of-html": "W/\"8d0ae296c512934a35e2178316a422aa\"",
-    "post:what-a-task-costs-on-opus-5-5": "W/\"200f23cda679ed9630708a70d013a48a\""
+    "post:what-a-task-costs-on-opus-5-5": "W/\"200f23cda679ed9630708a70d013a48a\"",
+    "post:which-claude-model-should-you-build-with": "W/\"e77991d51fbd5b69431d083f744b0aae\""
   }
 }
