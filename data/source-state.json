@@ -34,7 +34,7 @@
       "date": "2026-06-02",
       "title": "A harness for every task: dynamic workflows in Claude Code",
       "sha256": "a5dd0335ce676225f9727f85003a8373527d47624b82fc4c6a7259667daae580",
-      "distilled": "cfd8e8dc7e576ad3e235c580cee3b046ccc99e2e3faa413cce922aebfc31ab8d"
+      "distilled": "a5dd0335ce676225f9727f85003a8373527d47624b82fc4c6a7259667daae580"
     },
     "automating-eval-design-and-hillclimbing": {
       "date": "2026-09-28",
@@ -94,7 +94,7 @@
       "date": "2026-11-09",
       "title": "Safely scaling multi-agent teams with Claude Fable 5.2",
       "sha256": "b26687e634d6c0aa9a58ca3a794e3627b4802d3782929de55086bd355cf15e5a",
-      "distilled": null
+      "distilled": "b26687e634d6c0aa9a58ca3a794e3627b4802d3782929de55086bd355cf15e5a"
     },
     "seeing-like-an-agent": {
       "date": "2026-04-10",
@@ -136,7 +136,7 @@
       "date": "2026-11-09",
       "title": "Which Claude model should you build with? Fable, Opus, Sonnet, or Haiku",
       "sha256": "3c0527dbae04613d11dc425c1b1d89b82f313acc114d2c6e1fa73be36606c186",
-      "distilled": null
+      "distilled": "3c0527dbae04613d11dc425c1b1d89b82f313acc114d2c6e1fa73be36606c186"
     }
   },
   "etags": {
