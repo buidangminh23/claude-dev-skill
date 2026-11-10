@@ -1,6 +1,6 @@
 {
   "name": "@minhspark/claude-dev-skill",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "description": "Unofficial, auto-updating agent skill built from the claude.dev engineering blog",
   "license": "MIT",
   "type": "module",

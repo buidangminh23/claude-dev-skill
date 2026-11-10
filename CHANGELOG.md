@@ -2,6 +2,19 @@
 
 Releases made by the update workflow list the claude.dev posts and mods that changed since the previous release.
 
+## [0.1.18] - 2026-11-10
+
+### New posts on claude.dev
+
+- 2026-11-09 [Safely scaling multi-agent teams with Claude Fable 5.2](https://claude.dev/blog/safely-scaling-multi-agent-teams-with-fable-5-2/)
+- 2026-11-09 [Which Claude model should you build with? Fable, Opus, Sonnet, or Haiku](https://claude.dev/blog/which-claude-model-should-you-build-with/)
+
+### Notes rewritten
+
+- `SKILL.md`
+- `references/model-selection.md`
+- `references/multi-agent-teams.md`
+
 ## [0.1.17] - 2026-11-08
 
 ### Notes rewritten
