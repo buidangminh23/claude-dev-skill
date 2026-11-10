@@ -21,6 +21,8 @@ Notes carry dates, and some facts belong to a specific model or Claude Code vers
 |---|---|
 | Choosing an effort level for a task or a session | [effort.md](references/effort.md) |
 | Sonnet or Opus, and estimating or cutting what a task costs | [models-and-cost.md](references/models-and-cost.md) |
+| Picking among Haiku, Sonnet, Opus and Fable, mixing models, or migrating between them | [model-selection.md](references/model-selection.md) |
+| Designing a large agent team with shared state, or choosing sandboxing and monitoring for it | [multi-agent-teams.md](references/multi-agent-teams.md) |
 | Briefing a long autonomous run, steering it, reviewing its report | [long-runs.md](references/long-runs.md) |
 | Trimming system prompts, CLAUDE.md, rules, memory or skills | [context-engineering.md](references/context-engineering.md) |
 | Writing or restructuring a skill | [skills.md](references/skills.md) |
