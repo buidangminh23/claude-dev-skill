@@ -88,7 +88,7 @@
       "date": "2026-04-30",
       "title": "Lessons from building Claude Code: Prompt caching is everything",
       "sha256": "a646cece10ea936fc6a3b7f6b899dd6b2ccbcbed147a561248217e05b2521401",
-      "distilled": "250e6c1c8263d86fca0427a921ee94ff8a6deae79b52fb103cdbe13099fec226"
+      "distilled": "a646cece10ea936fc6a3b7f6b899dd6b2ccbcbed147a561248217e05b2521401"
     },
     "safely-scaling-multi-agent-teams-with-fable-5-2": {
       "date": "2026-11-09",
@@ -100,7 +100,7 @@
       "date": "2026-04-10",
       "title": "Seeing like an agent: how we design tools in Claude Code",
       "sha256": "1cb807a96c79c6eb822f1714d4f571f4317ada38cab9185c8de78899efde5c5f",
-      "distilled": "2f74bdcc6029d2ac1f627c44e6c812c411157f0306fb332aabc025e385d7c2b5"
+      "distilled": "1cb807a96c79c6eb822f1714d4f571f4317ada38cab9185c8de78899efde5c5f"
     },
     "solving-code-review-at-anthropic": {
       "date": "2026-10-15",
@@ -124,7 +124,7 @@
       "date": "2026-05-20",
       "title": "Using Claude Code: The unreasonable effectiveness of HTML",
       "sha256": "e9dafce858fbb2e88f02590a3051040177c228ed3c39b0e95b073feb60dda407",
-      "distilled": "8fc465ebfbcbaa86946b79647d9efd0fcd3a06b44f4bc6f243aca3b6f4b93eeb"
+      "distilled": "e9dafce858fbb2e88f02590a3051040177c228ed3c39b0e95b073feb60dda407"
     },
     "what-a-task-costs-on-opus-5-5": {
       "date": "2026-09-25",
