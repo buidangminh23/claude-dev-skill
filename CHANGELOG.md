@@ -2,6 +2,10 @@
 
 Releases made by the update workflow list the claude.dev posts and mods that changed since the previous release.
 
+## [0.1.19] - 2026-11-12
+
+- Refreshed the claude.dev index.
+
 ## [0.1.18] - 2026-11-10
 
 ### New posts on claude.dev
