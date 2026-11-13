@@ -51,7 +51,7 @@
     "building-with-claude-sonnet-5-5": {
       "date": "2026-09-28",
       "title": "Building with Claude Sonnet 5.5",
-      "sha256": "5a284f69e14d2da3b664e2284fd3175f600199bc098747328bfb53ce3f6c3c86",
+      "sha256": "0650b56567c665eed0c792e02a58aa865ad329cc04a6d2a373322b00e97eb980",
       "distilled": "5a284f69e14d2da3b664e2284fd3175f600199bc098747328bfb53ce3f6c3c86"
     },
     "claude-code-in-the-cloud": {
@@ -93,7 +93,7 @@
     "safely-scaling-multi-agent-teams-with-fable-5-2": {
       "date": "2026-11-09",
       "title": "Safely scaling multi-agent teams with Claude Fable 5.2",
-      "sha256": "b26687e634d6c0aa9a58ca3a794e3627b4802d3782929de55086bd355cf15e5a",
+      "sha256": "98ae43b0556a97220d72a40991dd88101a952a1e2da44fcfa8c15bc42ab3f03d",
       "distilled": "b26687e634d6c0aa9a58ca3a794e3627b4802d3782929de55086bd355cf15e5a"
     },
     "seeing-like-an-agent": {
@@ -129,36 +129,36 @@
     "what-a-task-costs-on-opus-5-5": {
       "date": "2026-09-25",
       "title": "What a task costs on Opus 5.5",
-      "sha256": "1fa4b6d09edd21a4a119af2317bf5c35aead9859c5a89edca83d2f6a81cc3ed7",
+      "sha256": "e29076b1497ec5b5d1e46997f3598475c0aceaa8709a82246daf5d8a928c9e47",
       "distilled": "1fa4b6d09edd21a4a119af2317bf5c35aead9859c5a89edca83d2f6a81cc3ed7"
     },
     "which-claude-model-should-you-build-with": {
       "date": "2026-11-09",
       "title": "Which Claude model should you build with? Fable, Opus, Sonnet, or Haiku",
-      "sha256": "3c0527dbae04613d11dc425c1b1d89b82f313acc114d2c6e1fa73be36606c186",
+      "sha256": "ac05ccfac6da7443d646c4d4569441fb26afbb3a55cda0a817c2c0e718fc0ac2",
       "distilled": "3c0527dbae04613d11dc425c1b1d89b82f313acc114d2c6e1fa73be36606c186"
     }
   },
   "etags": {
-    "page:mods": "W/\"1ddcc724675e8f9e2e348664d45ee7bc\"",
-    "page:terms": "W/\"359e1fd490ea7d089a92bae465a2cab2\"",
+    "page:mods": "W/\"5a363a759fd6fa83faa0de3a7b74a603\"",
+    "page:terms": "W/\"148bb66d6eee92c331ecd3364102ce1b\"",
     "post:a-harness-for-every-task-dynamic-workflows-in-claude-code": "W/\"39d485604cc23e5db9fef7c29598bcdf\"",
     "post:automating-eval-design-and-hillclimbing": "W/\"aee18298490d82b3850f630d3f70d06f\"",
     "post:building-effective-agent-automations": "W/\"61450b3be6dac30c00507a1dc7d1caa0\"",
-    "post:building-with-claude-sonnet-5-5": "W/\"4e12bef84686f77930e6241c35d37995\"",
+    "post:building-with-claude-sonnet-5-5": "W/\"32d9d893758e1969433395464cbf5045\"",
     "post:claude-code-in-the-cloud": "W/\"ebcdddb0639eadb0f40778d890a2921a\"",
     "post:getting-started-with-claude-code-mods": "W/\"e69f0f7da6b4e3333660e766c208f9da\"",
     "post:getting-the-most-out-of-opus-5-5": "W/\"baa50e7c454f6635e366352a2390a09d\"",
     "post:how-we-made-claude-ai-faster": "W/\"5347de679e1c189a0f5c26af122d7f3b\"",
     "post:lessons-from-building-claude-code-how-we-use-skills": "W/\"3e80d6f5955ce4f2fc72812c8452b6f4\"",
     "post:lessons-from-building-claude-code-prompt-caching-is-everything": "W/\"ba763e7409bf58bc3953ff769501f255\"",
-    "post:safely-scaling-multi-agent-teams-with-fable-5-2": "W/\"c387670a1325aa9fc90e21a8438a8499\"",
+    "post:safely-scaling-multi-agent-teams-with-fable-5-2": "W/\"983128c2c8162aa8a3b83e974ca228b5\"",
     "post:seeing-like-an-agent": "W/\"9c4c67b27b58f484fa64467fb460ede1\"",
     "post:solving-code-review-at-anthropic": "W/\"53cae9f805c4c0b8f357a969e45bc8a5\"",
     "post:spending-your-effort": "W/\"7a6683073ba980ab33ca446d8cc58a61\"",
     "post:the-new-rules-of-context-engineering-for-claude-5-generation-models": "W/\"e2a805bc0ac090cf7252d5ab38b24018\"",
     "post:using-claude-code-the-unreasonable-effectiveness-of-html": "W/\"8d0ae296c512934a35e2178316a422aa\"",
-    "post:what-a-task-costs-on-opus-5-5": "W/\"200f23cda679ed9630708a70d013a48a\"",
-    "post:which-claude-model-should-you-build-with": "W/\"e77991d51fbd5b69431d083f744b0aae\""
+    "post:what-a-task-costs-on-opus-5-5": "W/\"eecbe704a03370708352faa6c402762c\"",
+    "post:which-claude-model-should-you-build-with": "W/\"6fa8832055bb5bf26481b8f12c06607d\""
   }
 }
