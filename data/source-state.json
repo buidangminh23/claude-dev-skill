@@ -52,7 +52,7 @@
       "date": "2026-09-28",
       "title": "Building with Claude Sonnet 5.5",
       "sha256": "0650b56567c665eed0c792e02a58aa865ad329cc04a6d2a373322b00e97eb980",
-      "distilled": "5a284f69e14d2da3b664e2284fd3175f600199bc098747328bfb53ce3f6c3c86"
+      "distilled": "0650b56567c665eed0c792e02a58aa865ad329cc04a6d2a373322b00e97eb980"
     },
     "claude-code-in-the-cloud": {
       "date": "2026-10-06",
@@ -94,7 +94,7 @@
       "date": "2026-11-09",
       "title": "Safely scaling multi-agent teams with Claude Fable 5.2",
       "sha256": "98ae43b0556a97220d72a40991dd88101a952a1e2da44fcfa8c15bc42ab3f03d",
-      "distilled": "b26687e634d6c0aa9a58ca3a794e3627b4802d3782929de55086bd355cf15e5a"
+      "distilled": "98ae43b0556a97220d72a40991dd88101a952a1e2da44fcfa8c15bc42ab3f03d"
     },
     "seeing-like-an-agent": {
       "date": "2026-04-10",
@@ -136,7 +136,7 @@
       "date": "2026-11-09",
       "title": "Which Claude model should you build with? Fable, Opus, Sonnet, or Haiku",
       "sha256": "ac05ccfac6da7443d646c4d4569441fb26afbb3a55cda0a817c2c0e718fc0ac2",
-      "distilled": "3c0527dbae04613d11dc425c1b1d89b82f313acc114d2c6e1fa73be36606c186"
+      "distilled": "ac05ccfac6da7443d646c4d4569441fb26afbb3a55cda0a817c2c0e718fc0ac2"
     }
   },
   "etags": {
