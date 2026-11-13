@@ -103,7 +103,7 @@ jobs:
         id: claude
         if: steps.plan.outputs.run == 'true'
         continue-on-error: true
-        uses: anthropics/claude-code-action@86d88e619d8e6caf07b5c3944dd14f441c533718 # v1.0.243
+        uses: anthropics/claude-code-action@d70510b174a1244958df0b03166a54912811f3e6 # v1.0.264
         env:
           CLAUDE_CODE_SUBPROCESS_ENV_SCRUB: "1"
         with:
