@@ -12,7 +12,14 @@
   <img src="assets/codex.svg" height="20" alt="">&nbsp;Codex
 </p>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-0078D4?style=for-the-badge)](LICENSE)
+<p align="center">
+  <a href="https://www.npmjs.com/package/@minhspark/claude-dev-skill"><img src="https://img.shields.io/npm/v/@minhspark/claude-dev-skill?logo=npm&amp;color=CB3837" height="20" alt="npm" /></a>
+  <a href="https://www.npmjs.com/package/@minhspark/claude-dev-skill"><img src="https://raw.githubusercontent.com/buidangminh23/claude-dev-skill/badges/npm-downloads.svg" height="20" alt="npm downloads" /></a>
+  <a href="https://www.npmcharts.com/compare/%40minhspark%2Fclaude-dev-skill?minimal=true"><img src="https://raw.githubusercontent.com/buidangminh23/claude-dev-skill/badges/npm-downloads-month.svg" height="20" alt="npm downloads / 30d" /></a>
+  <br />
+  <a href="https://github.com/buidangminh23/claude-dev-skill/graphs/traffic"><img src="https://raw.githubusercontent.com/buidangminh23/claude-dev-skill/badges/github-views.svg" height="20" alt="GitHub views / 14d" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/npm/l/@minhspark/claude-dev-skill" height="20" alt="license" /></a>
+</p>
 
 </div>
 
