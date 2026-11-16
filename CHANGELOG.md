@@ -2,6 +2,12 @@
 
 Releases made by the update workflow list the claude.dev posts and mods that changed since the previous release.
 
+## [0.1.21] - 2026-11-16
+
+### New posts on claude.dev
+
+- 2026-11-16 [How the Claude Code team thinks about verification](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)
+
 ## [0.1.20] - 2026-11-13
 
 ### Updated posts on claude.dev
