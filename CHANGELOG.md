@@ -2,6 +2,24 @@
 
 Releases made by the update workflow list the claude.dev posts and mods that changed since the previous release.
 
+## [0.1.22] - 2026-11-18
+
+### New posts on claude.dev
+
+- 2026-11-17 [Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests](https://claude.dev/blog/chaos-loop-claude-docs-launch/)
+
+### Notes rewritten
+
+- `SKILL.md`
+- `references/chaos-loop.md`
+- `references/cloud-sessions.md`
+- `references/code-review.md`
+- `references/evals.md`
+- `references/models-and-cost.md`
+- `references/mods.md`
+- `references/performance.md`
+- `references/verification.md`
+
 ## [0.1.21] - 2026-11-16
 
 ### New posts on claude.dev
