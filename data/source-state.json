@@ -54,6 +54,12 @@
       "sha256": "0650b56567c665eed0c792e02a58aa865ad329cc04a6d2a373322b00e97eb980",
       "distilled": "0650b56567c665eed0c792e02a58aa865ad329cc04a6d2a373322b00e97eb980"
     },
+    "chaos-loop-claude-docs-launch": {
+      "date": "2026-11-17",
+      "title": "Using a \"chaos loop\" to harden the Claude Docs launch: 60 server errors across billions of requests",
+      "sha256": "674a2ea6c4df4c427a9d2f41ae5185f86d70c26a780a14983964606570efb279",
+      "distilled": null
+    },
     "claude-code-in-the-cloud": {
       "date": "2026-10-06",
       "title": "Claude Code in the cloud: a field guide to cloud sessions",
@@ -146,12 +152,13 @@
     }
   },
   "etags": {
-    "page:mods": "W/\"0016227a8e0c330ccae8a7921839d6bd\"",
-    "page:terms": "W/\"da2efcf8ab6bd059b5f1de19495eb5b5\"",
+    "page:mods": "W/\"cf035e010b4818466d4d7f21d760867a\"",
+    "page:terms": "W/\"a40012353574fe98da9fc310f0077110\"",
     "post:a-harness-for-every-task-dynamic-workflows-in-claude-code": "W/\"9195fc62ee6b6a34699c59412950db00\"",
     "post:automating-eval-design-and-hillclimbing": "W/\"3ba09f307851d9527f8a17f347566519\"",
     "post:building-effective-agent-automations": "W/\"1c33da53e0bf31f8ae95bfa4595cc77b\"",
     "post:building-with-claude-sonnet-5-5": "W/\"bdc26efaae6f8cca39fba20934c7b4e8\"",
+    "post:chaos-loop-claude-docs-launch": "W/\"f60fdfe830341a1358ca7fce8e000619\"",
     "post:claude-code-in-the-cloud": "W/\"e75db879c3b0c453968d13bf3aeea1a3\"",
     "post:getting-started-with-claude-code-mods": "W/\"eda363e2df0b43c133f0fe17b939bee9\"",
     "post:getting-the-most-out-of-opus-5-5": "W/\"84541df29801b91e3dc10962b7de70b5\"",
