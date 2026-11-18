@@ -58,7 +58,7 @@
       "date": "2026-11-17",
       "title": "Using a \"chaos loop\" to harden the Claude Docs launch: 60 server errors across billions of requests",
       "sha256": "674a2ea6c4df4c427a9d2f41ae5185f86d70c26a780a14983964606570efb279",
-      "distilled": null
+      "distilled": "674a2ea6c4df4c427a9d2f41ae5185f86d70c26a780a14983964606570efb279"
     },
     "claude-code-in-the-cloud": {
       "date": "2026-10-06",
@@ -82,7 +82,7 @@
       "date": "2026-11-16",
       "title": "How the Claude Code team thinks about verification",
       "sha256": "fdfcc7edb39062bbf0fe67815a03c0094d4162c3ef64aee6975bb62a54c764ee",
-      "distilled": null
+      "distilled": "fdfcc7edb39062bbf0fe67815a03c0094d4162c3ef64aee6975bb62a54c764ee"
     },
     "how-we-made-claude-ai-faster": {
       "date": "2026-09-23",
@@ -142,7 +142,7 @@
       "date": "2026-09-25",
       "title": "What a task costs on Opus 5.5",
       "sha256": "e29076b1497ec5b5d1e46997f3598475c0aceaa8709a82246daf5d8a928c9e47",
-      "distilled": "1fa4b6d09edd21a4a119af2317bf5c35aead9859c5a89edca83d2f6a81cc3ed7"
+      "distilled": "e29076b1497ec5b5d1e46997f3598475c0aceaa8709a82246daf5d8a928c9e47"
     },
     "which-claude-model-should-you-build-with": {
       "date": "2026-11-09",
