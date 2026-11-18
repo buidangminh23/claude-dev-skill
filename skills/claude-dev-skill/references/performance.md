@@ -46,15 +46,15 @@ Let threads keep going past their first request, and let Claude open new threads
 - When people can see a problem that a standard metric rates as fine, go to the browser API underneath. Sidebar rows that visibly jumped scored only about 0.008 CLS per shift, against a 0.1 "good" line, so Claude built telemetry on the Layout Instability API that labels every `layout-shift` entry with the page region its `sources` fall in and with the load phase (before first paint, after the page becomes typeable).
 - Make the visible bug a failing test, and prove the fix across repeated runs. The integration test delayed the sidebar's data past first paint and broke on movement in any named region: red on main 20 times out of 20, green on the PR 20 out of 20.
 - Ship the telemetry and let field data set the work. In the field, 31% of web page loads shifted content after the page had become usable, without user input; Claude fixed the top named causes as a batch, then went after the next batch.
-- Count and trace widely; every census in the post found a hidden cost, such as 6,900 hooks and 900 store subscriptions re-rendering per keystroke, a `:root:has()` selector costing 24 ms per DOM change, and a stray `location.reload()` causing about 500,000 unseen reloads a day.
-- Sweep for CPU hitches. In the post, one em dash or curly quote in a reply made the page freeze for about a second while a finished code block was highlighted: any non-Latin-1 character makes V8 hold the whole string in UTF-16, which sends every highlighting regex down a slower two-byte path. Copying each code block into a fresh one-byte string before highlighting cut the first block's time by 65%, to 0.35 s, in the lab.
-- Test smoothness with deterministic frame stepping: headless Chromium ticks at 60 Hz by default, but DevTools begin-frame control steps it at exactly 120 Hz, so every frame passes or fails an 8.33 ms budget instead of yielding a noisy timing. Fixes found this way: memoize finished blocks (each streamed chunk had cost time proportional to message length), tokenize still-growing code fences in a worker, and reveal tables cell by cell. The rig then ran nightly under Claude's watch.
+- Count and trace widely; every census in the post found a hidden cost, such as a stray `location.reload()` causing about 500,000 unseen reloads a day.
+- Sweep for CPU hitches: in the post one non-Latin-1 character in a reply made V8 keep the string in UTF-16 and froze the page for about a second during code highlighting; copying each block into a fresh one-byte string cut the first block's time by 65%, to 0.35 s.
+- Test smoothness with deterministic frame stepping: DevTools begin-frame control steps headless Chromium at exactly 120 Hz, so each frame passes or fails an 8.33 ms budget rather than yielding a noisy timing. It found fixes such as memoizing finished blocks and tokenizing growing code fences in a worker.
 
 ### Ship fast without incidents
 - Install guardrails before the pace rises: unit tests exist before any optimization lands, every PR gets automated review plus approval from at least one human, and anything that might cause a user-visible problem ships behind a feature flag meant to be short-lived.
 - Manage flags as a set; the post created nearly 200 in two weeks. Coordinate rollout and cleanup in one thread, label each flag a kill switch or a ramp, and delete it once that is safe.
-- Give brittle wins dedicated guards, since speedups erode when the codebase moves fast. Guards on the static composer (HTML a user can type into before React takes over) included: markup produced by rendering the real component in jsdom, with a test against drift; a keystroke test that keeps typing while React replaces the static copy and fails if any key goes missing or out of order; a comparison with the React render at 14 viewport sizes that must agree within 1 px; and field telemetry that reports handoff movement to 0.1 px, with Claude opening a thread for anything nonzero.
-- Roll risky changes out in stages, employees first, then 1% of users, then everyone, because no lab catches everything. During the composer's internal stage a teammate's screen recording showed a shift no metric caught; Claude traced it to Chrome prerendering the page at the shorter height of a managed browser's new-tab page, which headless tests cannot reproduce. The layout now holds steady through the resize, and a test simulates prerendering.
+- Give brittle wins dedicated guards, since speedups erode when the codebase moves fast. For the static composer (HTML typeable before React takes over) the post used a drift test on its markup, a keystroke test that fails if keys are lost across the handoff, a render comparison at 14 viewport sizes within 1 px, and field telemetry on handoff movement.
+- Roll risky changes out in stages, employees first, then 1% of users, then everyone, because no lab catches everything: an employee's screen recording exposed a shift caused by Chrome prerendering that headless tests cannot reproduce.
 
 ### Divide the work: Claude executes, people steer
 - Claude did the execution: locating bottlenecks, building benchmarks and telemetry, opening PRs, watching every deploy, reading field data and retiring flags. About one PR in three added telemetry or guardrails.
@@ -65,10 +65,8 @@ Let threads keep going past their first request, and let Claude open new threads
 
 ## Numbers worth knowing
 - Result (p75 of real users, 2026-08-13 vs 2026-08-27): about 3x faster, a 3.1x geometric mean over 13 measurements. A fresh claude.ai load became typeable in 0.55 s instead of 3.1 s. Over 3,000 merged changes caused no rollback and no incident that reached customers.
-- Other p75 results: starting a Claude Code session 0.8 s to 0.3 s; loading a Cowork cloud session 2.6 s to 0.73 s (sending a Cowork message went from 928 ms to 48 ms).
-- Streaming smoothness (about sixty PRs in one thread, 120 Hz rig): long replies blocked the main thread for about 200 ms in total instead of about 750 ms, used about a third of the CPU, and held 120 fps throughout on a 120 Hz MacBook.
+- Other p75 results: starting a Claude Code session 0.8 s to 0.3 s; loading a Cowork cloud session 2.6 s to 0.73 s.
 - Proxy proof: on two hot paths, 48% and 31% fewer instructions (Valgrind, `node --predictable`) gave 78% and 44% less wall-clock time (same benchmark, plain node, JIT warmed up).
-- Setup (as of 2026-09-23): Claude Tag (beta) with an internal research model that the authors place roughly level with Opus 5.5.
 
 ## Pitfalls
 - Climbing a proxy nobody has shown to track wall-clock time.
@@ -76,8 +74,6 @@ Let threads keep going past their first request, and let Claude open new threads
 - Trusting an aggregate score such as CLS when people can see the problem.
 - Treating the first targets as the finish line; in the post, 12 of 13 were met by day three.
 - Letting Claude's default caution set the scope when guardrails could absorb more risk.
-- Leaving a proven win without a ratchet or a dedicated guard.
-- Assuming a headless rig behaves like a real browser, with its UI and prerendering.
 
 ## See also
 - [evals.md](evals.md) for the same habit applied to LLM quality: validate the measure, change one thing, keep it only if it holds.

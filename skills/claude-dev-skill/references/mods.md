@@ -31,18 +31,18 @@ Sources: [Getting started with Claude Code mods](https://claude.dev/blog/getting
   - observe: `await next(e)`, look at the result, return it as is;
   - rewrite: pass a modified copy to `next`, for example a safer command;
   - answer: skip `next` and return your own result, such as `{ deny: "…" }`, to refuse a tool call or serve a command or tool directly.
-- Pick events by what you need to see: tool calls (`tool.call`, matcher `{ tool: "Bash" }`), the prompt as submitted (`prompt.submit`), turns (`turn.start`, `turn.complete`), the session starting (`session.start`) and ending, slash commands (`command.run`), and each UI component as it renders (`ui.render`, matcher `{ component: "AbovePrompt" }`).
-- Reach the outside world only through `$`: the module runs in its own sandbox, without a DOM or Node APIs.
-- For worked examples, read the mods Claude Code itself ships, such as the `/diff` pane and AGENTS.md handling; their source and tests sit under `mods/` in [anthropics/claude-code](https://github.com/anthropics/claude-code).
+- Pick events by need: `tool.call` (matcher `{ tool: "Bash" }`), `prompt.submit`, `turn.start`, `turn.complete`, `session.start`, `command.run`, and `ui.render` (matcher `{ component: "AbovePrompt" }`).
+- Reach the outside world only through `$`: the module runs in a sandbox without a DOM or Node APIs.
+- Worked examples live under `mods/` in [anthropics/claude-code](https://github.com/anthropics/claude-code).
 
 ### Draw on the surfaces
 - Draw in the terminal or in the Code tab of the desktop app: the `AbovePrompt` band (Claude Code leaves it empty, so it is a safe first target), a `Pane` docked next to the transcript, a status line via `$.ui.status`, or a toast via `$.ui.toast`.
-- Ask `$.ui.resolve(e)` for element constructors instead of using globals, because each surface accepts its own set of elements. JSX works too if you use `h` as its factory.
-- Find component props on `e.props` (for example `hasSurvey` and `bodyColumns`); the top level of a render event holds only `component`, `surface`, `requestId` and `viewport`.
-- Fit the tree to `bodyColumns`, the band's actual width, which shrinks whenever a side pane is open. Return `next(e)` when `hasSurvey` is set or you have nothing to show, so Claude Code and other mods get the band back.
-- Use single-width glyphs (☀ ☁ ☂ ☇ ↯) rather than emoji, so columns stay aligned in any terminal font.
-- Open a pane with `$.ui.open({ id, title, focus })`; if the answer is `isPlaced: false`, draw the same content in the band. The surface decides placement, so build one tree that works docked or inline.
-- Give each button a digit hotkey: `Button({ label, hotkey, onPress })` responds to a click, to Tab plus Enter, or to the digit.
+- Ask `$.ui.resolve(e)` for element constructors instead of using globals; each surface accepts its own set.
+- Find component props on `e.props` (for example `hasSurvey` and `bodyColumns`).
+- Fit the tree to `bodyColumns`, the band's actual width. Return `next(e)` when `hasSurvey` is set or you have nothing to show.
+- Use single-width glyphs rather than emoji so columns stay aligned.
+- Open a pane with `$.ui.open({ id, title, focus })`; if the answer is `isPlaced: false`, draw the same content in the band.
+- Give each button a digit hotkey: `Button({ label, hotkey, onPress })`.
 
 ### Keep state across reloads
 - Treat each save as a new load: `register` and `session.start` rerun and module-level variables start over. Keep anything that must persist in `$.state`, which the host holds for the session.
@@ -76,7 +76,7 @@ Sources: [Getting started with Claude Code mods](https://claude.dev/blog/getting
 ## Numbers worth knowing
 - 2.1.287: the minimum Claude Code version for mods, which are on by default from that release (as of 2026-10-01).
 - 10 seconds: what a hook may spend per dispatch on its own work; waits inside `$` calls are excluded.
-- Fallbacks in the post: Blast Radius drew its report in the band on a 120-column terminal, and Replay Theater opened inline above the prompt at 80 columns, so never assume a pane will dock.
+- Never assume a pane will dock; draw inline when it cannot.
 
 ## Pitfalls
 - Module-level variables, which every save resets; use `$.state`.

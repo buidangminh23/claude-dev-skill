@@ -36,6 +36,8 @@ Notes carry dates, and some facts belong to a specific model or Claude Code vers
 | Deciding on, briefing or setting up Claude Code cloud sessions, or fixing GitHub connection | [cloud-sessions.md](references/cloud-sessions.md) |
 | Building a scheduled agent that reads sources and posts a digest, or fixing one that misses or repeats items | [agent-automations.md](references/agent-automations.md) |
 | Setting up or tuning code review, risk-based approval or AI reviewers for agent-written pull requests | [code-review.md](references/code-review.md) |
+| Choosing tests or checks so agents can prove their work, or gating commits on verification | [verification.md](references/verification.md) |
+| Pre-launch load testing and hardening of a service with a Claude-run chaos loop | [chaos-loop.md](references/chaos-loop.md) |
 | Anything else | [index.md](references/index.md) lists every post with its sections |
 
 ## Principles shared across the posts

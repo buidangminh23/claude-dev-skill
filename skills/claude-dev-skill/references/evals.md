@@ -61,8 +61,8 @@ Sources: [Automating eval design and hillclimbing with Claude](https://claude.de
 ## Pitfalls
 - Trusting a grader nobody spot-checked, or letting the model under test act as its own judge.
 - Counting a gain seen only on train, or spending rounds on edits too small to measure.
-- Editing the prompt or skill yet again when a task never improves after the obvious content gaps are closed; inspect the task and its grader instead. In the post, one grader demanded three or more chained error types although its task text asked for one, so the task was reworded; another grader's instructions contradicted the docs, and a test against the live API confirmed the docs.
-- Assuming the model uses whatever a skill contains. Sorting failures in the post's skill example showed the current API shapes were already in the skill, yet Claude kept writing older ones from its training. The fix was an early table in the skill mapping remembered forms to current ones, such as fixed-budget extended thinking (rejected by the API on recent Opus models as of 2026-09-28) to adaptive thinking, plus moving warnings above the examples they qualify.
+- Editing the prompt or skill yet again when a task never improves after the obvious content gaps are closed; inspect the task and its grader instead. In the post, one grader contradicted its own task text and another contradicted the docs.
+- Assuming the model uses whatever a skill contains. Sorting failures in the post's skill example showed the current API shapes were already in the skill, yet Claude kept writing older ones from its training. The fix was an early table in the skill mapping remembered forms to current ones, plus moving warnings above the examples they qualify.
 
 ## See also
 - [models-and-cost.md](models-and-cost.md) for choosing a model and effort tier, and current per-token prices, when the goal is cost.

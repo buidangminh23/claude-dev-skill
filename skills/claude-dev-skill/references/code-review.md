@@ -79,9 +79,8 @@ Sources: [How the Claude Code team does code review](https://claude.dev/blog/sol
 
 ## Adoption checklist (from the post)
 - **Before the PR:** short `CLAUDE.md` listing runnable checks, hooks for formatters and linters, local `/code-review` and `/security-review` or a fresh-context subagent, and a `REVIEW.md` that absorbs repeated comments.
-- **Every PR:** required CI; "Testing", "Risk" and "How to revert" in the template; an AI reviewer piloted on one repo and tuned for a few weeks before widening; automated security review; all threads resolved before merge; effort matched to risk; capped rounds with diff-only re-review.
-- **Approval:** write down risk tiers derived from the change, start strict and relax with evidence; reserve light paths for trusted authors; enforce person-only sign-off through CODEOWNERS and branch protection for authentication, billing, CI, release pipelines and installers; never let a bot approval stand in for a required human; dismiss approvals when new commits arrive.
-- **Merge and after:** merge queue, flags, internal use first, staged releases, one-step rollback; an incident-based eval rescored whenever prompts, tools or model change; human time measured with reverts and incidents as guardrails.
+- **Every PR:** required CI, a "Testing", "Risk" and "How to revert" template, an AI reviewer piloted on one repo first, all threads resolved before merge, capped rounds.
+- **Approval:** start strict and relax with evidence; person-only sign-off via CODEOWNERS for sensitive paths; dismiss approvals on new commits.
 - When a review misses something, ask what the model lacked and put the fix in `CLAUDE.md`, a skill or a new check.
 
 ## Pitfalls
