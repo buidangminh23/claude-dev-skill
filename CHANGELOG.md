@@ -2,6 +2,15 @@
 
 Releases made by the update workflow list the claude.dev posts and mods that changed since the previous release.
 
+## [0.1.23] - 2026-11-24
+
+### Updated posts on claude.dev
+
+- [Using a "chaos loop" to harden the Claude Docs launch: 60 server errors across billions of requests](https://claude.dev/blog/chaos-loop-claude-docs-launch/)
+- [How the Claude Code team thinks about verification](https://claude.dev/blog/how-the-claude-code-team-thinks-about-verification/)
+- [Which Claude model should you build with? Fable, Opus, Sonnet, or Haiku](https://claude.dev/blog/which-claude-model-should-you-build-with/)
+- [How the Claude Code team does code review](https://claude.dev/blog/solving-code-review-at-anthropic/)
+
 ## [0.1.22] - 2026-11-18
 
 ### New posts on claude.dev
